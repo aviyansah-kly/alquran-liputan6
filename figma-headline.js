@@ -1,8 +1,8 @@
 (()=>{
   function mountHeadline(){
     const trending=document.querySelector('.trending');
-    const layout=document.querySelector('.layout');
-    if(!trending||!layout||document.querySelector('.headline-hari-ini'))return;
+    const contentStart=document.querySelector('.layout')||document.querySelector('.reader-page');
+    if(!trending||!contentStart||document.querySelector('.headline-hari-ini'))return;
 
     const style=document.createElement('style');
     style.id='figma-headline-style';
@@ -80,6 +80,7 @@
         object-fit:contain;
       }
       .headline-hari-ini + .layout{margin-top:24px!important}
+      .headline-hari-ini ~ .reader-page{margin-top:24px!important}
       @media(max-width:900px){
         .headline-hari-ini{
           width:auto;
@@ -94,6 +95,7 @@
         .headline-hari-ini__story{order:3;flex-basis:100%;height:auto;font-size:14px;white-space:normal}
         .headline-hari-ini__cta{margin-left:auto;padding:7px 14px}
         .headline-hari-ini + .layout{margin-top:18px!important}
+        .headline-hari-ini ~ .reader-page{margin-top:18px!important}
       }
     `;
     document.head.appendChild(style);
