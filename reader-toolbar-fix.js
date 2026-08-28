@@ -36,4 +36,11 @@
     const next=Math.max(34,Math.min(68,current+delta));
     verses.forEach(el=>el.style.setProperty('font-size',`${next}px`,'important'));
   };
+
+  if(!window.__l6FigmaFooterRequested){
+    window.__l6FigmaFooterRequested=true;
+    const f=document.createElement('script');
+    f.src='figma-footer.js?v=1';
+    document.body.appendChild(f);
+  }
 })();
