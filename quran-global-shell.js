@@ -76,6 +76,13 @@
   window.addEventListener('resize',()=>{measure();applyShellState()},{passive:true});
   window.addEventListener('load',()=>{measure();applyShellState()},{once:true});
 
+  if(document.querySelector('.reader-tools')&&!window.__l6ReaderStickyThresholdFixRequested){
+    window.__l6ReaderStickyThresholdFixRequested=true;
+    const readerStickyFix=document.createElement('script');
+    readerStickyFix.src='reader-sticky-threshold-fix.js?v=1';
+    document.body.appendChild(readerStickyFix);
+  }
+
   if(!window.__l6FigmaFooterRequested){
     window.__l6FigmaFooterRequested=true;
     const footerScript=document.createElement('script');
