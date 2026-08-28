@@ -198,6 +198,22 @@
 
   mountGlobalStrips();
 
+  /* Sticky nav should engage only after the original menu position is crossed. */
+  const channelNav=document.querySelector('.channel-nav');
+  if(channelNav){
+    const stickyStart=channelNav.getBoundingClientRect().top+window.scrollY;
+    const syncChannelSticky=()=>{
+      const y=window.scrollY;
+      if(y<=8 || y<stickyStart){
+        channelNav.classList.remove('is-sticky');
+      }else{
+        channelNav.classList.add('is-sticky');
+      }
+    };
+    window.addEventListener('scroll',syncChannelSticky,{passive:true});
+    syncChannelSticky();
+  }
+
   if(!window.__l6FigmaFooterRequested){
     window.__l6FigmaFooterRequested=true;
     const f=document.createElement('script');
