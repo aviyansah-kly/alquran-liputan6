@@ -45,6 +45,44 @@
       top:56px!important;
     }
 
+    /* Keep toolbar copy on one line */
+    #playFull,.font-label,.reader-tools .tool-btn{
+      white-space:nowrap;
+      flex-shrink:0;
+    }
+    #playFull{
+      min-width:84px;
+      justify-content:center;
+    }
+    .font-label{
+      min-width:max-content;
+    }
+
+    /* Clear interaction feedback for Arabic font-size controls */
+    .font-size-btn{
+      cursor:pointer;
+      transition:background-color .16s ease,border-color .16s ease,color .16s ease,transform .1s ease,box-shadow .16s ease;
+      user-select:none;
+    }
+    .font-size-btn:hover{
+      background:#f6f8ff!important;
+      border-color:rgba(0,66,165,.35)!important;
+      color:#0042a5;
+    }
+    .font-size-btn:focus-visible{
+      outline:2px solid rgba(0,66,165,.28);
+      outline-offset:2px;
+      border-color:#0042a5!important;
+    }
+    .font-size-btn:active,
+    .font-size-btn.is-pressed{
+      transform:scale(.94);
+      background:#fff0e6!important;
+      border-color:#ff8d70!important;
+      color:#a72a0d;
+      box-shadow:0 0 0 3px rgba(255,51,0,.08);
+    }
+
     @media(max-width:900px){
       .qari-select{width:200px;max-width:200px}
       .ayat-jump{width:124px;min-width:124px}
@@ -54,6 +92,28 @@
     }
   `;
   document.head.appendChild(style);
+
+  const playFull=document.getElementById('playFull');
+  if(playFull){
+    const textNode=[...playFull.childNodes].find(n=>n.nodeType===Node.TEXT_NODE);
+    if(textNode)textNode.textContent='Putar';
+    playFull.setAttribute('aria-label','Putar surah');
+    playFull.setAttribute('title','Putar surah');
+  }
+
+  const fontLabel=document.querySelector('.font-label');
+  if(fontLabel)fontLabel.textContent='Teks Arab';
+
+  const sizeButtons=[...document.querySelectorAll('.tool-right .tool-btn')];
+  sizeButtons.forEach((btn,index)=>{
+    btn.classList.add('font-size-btn');
+    btn.setAttribute('aria-label',index===0?'Perkecil teks Arab':'Perbesar teks Arab');
+    btn.setAttribute('title',index===0?'Perkecil teks Arab':'Perbesar teks Arab');
+    btn.addEventListener('click',()=>{
+      btn.classList.add('is-pressed');
+      setTimeout(()=>btn.classList.remove('is-pressed'),140);
+    });
+  });
 
   window.resizeArabic=(delta)=>{
     const verses=[...document.querySelectorAll('.ayah-ar')];
