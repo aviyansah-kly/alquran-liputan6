@@ -16,124 +16,26 @@
     }
     .qari-select{width:210px;max-width:210px}
     .ayat-jump{width:128px;min-width:128px}
-
-    .surah-hero{
-      border-radius:12px 12px 0 0!important;
-      border-bottom:0!important;
-      padding:24px 32px 24px 24px!important;
-    }
-    .reader-tools{
-      margin-top:0!important;
-      min-height:58px;
-      top:56px!important;
-      border-radius:0 0 12px 12px!important;
-      padding:10px 12px!important;
-      gap:22px!important;
-      z-index:49;
-    }
+    .surah-hero{border-radius:12px 12px 0 0!important;border-bottom:0!important;padding:24px 32px 24px 24px!important}
+    .reader-tools{margin-top:0!important;min-height:58px;top:56px!important;border-radius:0 0 12px 12px!important;padding:10px 12px!important;gap:22px!important;z-index:49}
     body:has(.channel-nav.is-sticky) .reader-tools{top:56px!important}
-
-    #playFull,.font-label,.reader-tools .tool-btn{
-      white-space:nowrap;
-      flex-shrink:0;
-    }
-    #playFull{
-      min-width:84px;
-      justify-content:center;
-      cursor:pointer;
-      transition:background-color .16s ease,border-color .16s ease,transform .1s ease,box-shadow .16s ease;
-      user-select:none;
-    }
-    #playFull:hover{
-      background:#1f2937!important;
-      border-color:#1f2937!important;
-      box-shadow:0 4px 10px rgba(3,7,18,.14);
-    }
-    #playFull:focus-visible{
-      outline:2px solid rgba(0,66,165,.32);
-      outline-offset:2px;
-    }
-    #playFull:active,#playFull.is-pressed{
-      transform:scale(.96);
-      background:#374151!important;
-      border-color:#374151!important;
-      box-shadow:0 0 0 3px rgba(0,66,165,.08);
-    }
-    #playFull.is-playing{
-      background:#0042a5!important;
-      border-color:#0042a5!important;
-      box-shadow:0 4px 12px rgba(0,66,165,.18);
-    }
+    #playFull,.font-label,.reader-tools .tool-btn{white-space:nowrap;flex-shrink:0}
+    #playFull{min-width:84px;justify-content:center;cursor:pointer;transition:background-color .16s ease,border-color .16s ease,transform .1s ease,box-shadow .16s ease;user-select:none}
+    #playFull:hover{background:#1f2937!important;border-color:#1f2937!important;box-shadow:0 4px 10px rgba(3,7,18,.14)}
+    #playFull:focus-visible{outline:2px solid rgba(0,66,165,.32);outline-offset:2px}
+    #playFull:active,#playFull.is-pressed{transform:scale(.96);background:#374151!important;border-color:#374151!important;box-shadow:0 0 0 3px rgba(0,66,165,.08)}
+    #playFull.is-playing{background:#0042a5!important;border-color:#0042a5!important;box-shadow:0 4px 12px rgba(0,66,165,.18)}
     .font-label{min-width:max-content}
-    .font-size-btn{
-      cursor:pointer;
-      transition:background-color .16s ease,border-color .16s ease,color .16s ease,transform .1s ease,box-shadow .16s ease;
-      user-select:none;
-    }
-    .font-size-btn:hover{
-      background:#f6f8ff!important;
-      border-color:rgba(0,66,165,.35)!important;
-      color:#0042a5;
-    }
-    .font-size-btn:focus-visible{
-      outline:2px solid rgba(0,66,165,.28);
-      outline-offset:2px;
-      border-color:#0042a5!important;
-    }
-    .font-size-btn:active,.font-size-btn.is-pressed{
-      transform:scale(.94);
-      background:#fff0e6!important;
-      border-color:#ff8d70!important;
-      color:#a72a0d;
-      box-shadow:0 0 0 3px rgba(255,51,0,.08);
-    }
-
-    .surah-global-trending{
-      width:980px;
-      height:54px;
-      margin:24px auto 0;
-      border:1px solid #ff633d;
-      background:#fffbf7;
-      border-radius:8px;
-      display:flex;
-      align-items:center;
-      padding:0 24px;
-      gap:30px;
-      overflow:hidden;
-      font-family:Inter,Arial,sans-serif;
-    }
-    .surah-global-trending .trend-title{
-      font-size:16px;
-      font-weight:700;
-      color:#0042a5;
-      display:flex;
-      align-items:center;
-      gap:8px;
-      white-space:nowrap;
-    }
+    .font-size-btn{cursor:pointer;transition:background-color .16s ease,border-color .16s ease,color .16s ease,transform .1s ease,box-shadow .16s ease;user-select:none}
+    .font-size-btn:hover{background:#f6f8ff!important;border-color:rgba(0,66,165,.35)!important;color:#0042a5}
+    .font-size-btn:focus-visible{outline:2px solid rgba(0,66,165,.28);outline-offset:2px;border-color:#0042a5!important}
+    .font-size-btn:active,.font-size-btn.is-pressed{transform:scale(.94);background:#fff0e6!important;border-color:#ff8d70!important;color:#a72a0d;box-shadow:0 0 0 3px rgba(255,51,0,.08)}
+    .surah-global-trending{width:980px;height:54px;margin:24px auto 0;border:1px solid #ff633d;background:#fffbf7;border-radius:8px;display:flex;align-items:center;padding:0 24px;gap:30px;overflow:hidden;font-family:Inter,Arial,sans-serif}
+    .surah-global-trending .trend-title{font-size:16px;font-weight:700;color:#0042a5;display:flex;align-items:center;gap:8px;white-space:nowrap}
     .surah-global-trending .trend-title .icon{width:20px;height:20px}
-    .surah-global-trending .trend-chips{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      white-space:nowrap;
-      overflow:hidden;
-    }
-    .surah-global-trending .trend-chip{
-      font-size:14px;
-      line-height:20px;
-      background:#fff0e6;
-      padding:5px 12px;
-      border-radius:99px;
-    }
-
-    @media(max-width:900px){
-      .qari-select{width:200px;max-width:200px}
-      .ayat-jump{width:124px;min-width:124px}
-      .surah-hero{padding:18px 20px!important}
-      .reader-tools{top:56px!important}
-      .surah-global-trending{display:none}
-    }
+    .surah-global-trending .trend-chips{display:flex;align-items:center;gap:12px;white-space:nowrap;overflow:hidden}
+    .surah-global-trending .trend-chip{font-size:14px;line-height:20px;background:#fff0e6;padding:5px 12px;border-radius:99px}
+    @media(max-width:900px){.qari-select{width:200px;max-width:200px}.ayat-jump{width:124px;min-width:124px}.surah-hero{padding:18px 20px!important}.reader-tools{top:56px!important}.surah-global-trending{display:none}}
   `;
   document.head.appendChild(style);
 
@@ -146,12 +48,7 @@
     trending.innerHTML=`<div class="trend-title"><i data-lucide="trending-up" class="icon"></i>Trending</div><div class="trend-chips"><span class="trend-chip">Raja Ampat</span><span class="trend-chip">Haji</span><span class="trend-chip">Haji 2025</span><span class="trend-chip">Indonesia vs China</span><span class="trend-chip">Idul Adha 2025</span><span class="trend-chip">Indonesia Open</span></div>`;
     reader.parentNode.insertBefore(trending,reader);
     lucide.createIcons();
-    if(!window.__l6HeadlineRequested){
-      window.__l6HeadlineRequested=true;
-      const h=document.createElement('script');
-      h.src='figma-headline.js?v=2';
-      document.body.appendChild(h);
-    }
+    if(!window.__l6HeadlineRequested){window.__l6HeadlineRequested=true;const h=document.createElement('script');h.src='figma-headline.js?v=3';document.body.appendChild(h)}
   }
 
   const playFull=document.getElementById('playFull');
@@ -176,16 +73,11 @@
 
   const fontLabel=document.querySelector('.font-label');
   if(fontLabel)fontLabel.textContent='Teks Arab';
-
-  const sizeButtons=[...document.querySelectorAll('.tool-right .tool-btn')];
-  sizeButtons.forEach((btn,index)=>{
+  [...document.querySelectorAll('.tool-right .tool-btn')].forEach((btn,index)=>{
     btn.classList.add('font-size-btn');
     btn.setAttribute('aria-label',index===0?'Perkecil teks Arab':'Perbesar teks Arab');
     btn.setAttribute('title',index===0?'Perkecil teks Arab':'Perbesar teks Arab');
-    btn.addEventListener('click',()=>{
-      btn.classList.add('is-pressed');
-      setTimeout(()=>btn.classList.remove('is-pressed'),140);
-    });
+    btn.addEventListener('click',()=>{btn.classList.add('is-pressed');setTimeout(()=>btn.classList.remove('is-pressed'),140)});
   });
 
   window.resizeArabic=(delta)=>{
@@ -197,27 +89,5 @@
   };
 
   mountGlobalStrips();
-
-  /* Sticky nav should engage only after the original menu position is crossed. */
-  const channelNav=document.querySelector('.channel-nav');
-  if(channelNav){
-    const stickyStart=channelNav.getBoundingClientRect().top+window.scrollY;
-    const syncChannelSticky=()=>{
-      const y=window.scrollY;
-      if(y<=8 || y<stickyStart){
-        channelNav.classList.remove('is-sticky');
-      }else{
-        channelNav.classList.add('is-sticky');
-      }
-    };
-    window.addEventListener('scroll',syncChannelSticky,{passive:true});
-    syncChannelSticky();
-  }
-
-  if(!window.__l6FigmaFooterRequested){
-    window.__l6FigmaFooterRequested=true;
-    const f=document.createElement('script');
-    f.src='figma-footer.js?v=1';
-    document.body.appendChild(f);
-  }
+  if(!window.__l6QuranGlobalShell&&!window.__l6QuranGlobalShellRequested){window.__l6QuranGlobalShellRequested=true;const s=document.createElement('script');s.src='quran-global-shell.js?v=2';document.body.appendChild(s)}
 })();
