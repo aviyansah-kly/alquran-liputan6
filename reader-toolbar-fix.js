@@ -22,9 +22,35 @@
       width:128px;
       min-width:128px;
     }
+
+    /* Figma 9410:6330 — title and player are one connected surface */
+    .surah-hero{
+      border-radius:12px 12px 0 0!important;
+      border-bottom:0!important;
+      padding:24px 32px 24px 24px!important;
+    }
+    .reader-tools{
+      margin-top:0!important;
+      min-height:58px;
+      top:56px!important;
+      border-radius:0 0 12px 12px!important;
+      padding:10px 12px!important;
+      gap:22px!important;
+      z-index:49;
+    }
+    body:has(.header.is-returning) .reader-tools{
+      top:184px!important;
+    }
+    body:has(.channel-nav.is-sticky) .reader-tools{
+      top:56px!important;
+    }
+
     @media(max-width:900px){
       .qari-select{width:200px;max-width:200px}
       .ayat-jump{width:124px;min-width:124px}
+      .surah-hero{padding:18px 20px!important}
+      .reader-tools{top:56px!important}
+      body:has(.header.is-returning) .reader-tools{top:166px!important}
     }
   `;
   document.head.appendChild(style);
