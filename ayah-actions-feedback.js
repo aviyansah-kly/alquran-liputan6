@@ -30,9 +30,15 @@
       box-shadow:0 0 0 3px rgba(255,51,0,.07);
     }
     .ayah-action.is-audio-active{
-      background:#eef4ff!important;
-      border-color:rgba(0,66,165,.38)!important;
-      color:#0042a5!important;
+      background:#0042a5!important;
+      border-color:#0042a5!important;
+      color:#fff!important;
+      box-shadow:0 3px 10px rgba(0,66,165,.18);
+    }
+    .ayah-action.is-audio-active:hover{
+      background:#003680!important;
+      border-color:#003680!important;
+      color:#fff!important;
     }
     .ayah-action.is-saved,.ayah-action.active{
       background:#eefaf2!important;
@@ -58,10 +64,21 @@
   const getActionType=(el)=>{
     if(el.classList.contains('detail-btn'))return 'detail';
     const text=el.textContent.trim().toLowerCase();
-    if(text.includes('audio'))return 'audio';
+    if(text.includes('audio')||text.includes('memutar'))return 'audio';
     if(text.includes('simpan'))return 'save';
     if(text.includes('bagikan'))return 'share';
-    return '';
+    return el.dataset.actionType||'';
+  };
+
+  const setAudioButton=(btn,playing)=>{
+    if(!btn)return;
+    btn.classList.toggle('is-audio-active',playing);
+    btn.setAttribute('aria-pressed',playing?'true':'false');
+    btn.setAttribute('title',playing?'Audio sedang diputar':'Putar audio ayat');
+    btn.innerHTML=playing
+      ? '<i data-lucide="volume-2" class="icon"></i>Memutar'
+      : '<i data-lucide="play" class="icon"></i>Audio';
+    if(window.lucide)lucide.createIcons();
   };
 
   const enhanceAction=(el)=>{
@@ -95,20 +112,23 @@
       action.classList.add('is-share-feedback');
       setTimeout(()=>action.classList.remove('is-share-feedback'),420);
     }
-    if(type==='audio'){
-      requestAnimationFrame(()=>{
-        document.querySelectorAll('.ayah-action.is-audio-active').forEach(x=>x.classList.remove('is-audio-active'));
-        const verse=action.closest('.ayah');
-        if(verse?.classList.contains('is-playing'))action.classList.add('is-audio-active');
-      });
-    }
   },true);
 
+  const audioEl=document.getElementById('audioEl');
   const syncAudioState=()=>{
-    document.querySelectorAll('.ayah-action.is-audio-active').forEach(x=>x.classList.remove('is-audio-active'));
-    const active=document.querySelector('.ayah.is-playing');
-    const audioBtn=active?.querySelector('.ayah-action[data-action-type="audio"]');
-    if(audioBtn)audioBtn.classList.add('is-audio-active');
+    const playing=!!audioEl && !audioEl.paused && !audioEl.ended && !!audioEl.src;
+    const activeVerse=document.querySelector('.ayah.is-playing');
+    document.querySelectorAll('.ayah-action[data-action-type="audio"]').forEach(btn=>setAudioButton(btn,false));
+    if(playing){
+      const activeBtn=activeVerse?.querySelector('.ayah-action[data-action-type="audio"]');
+      if(activeBtn)setAudioButton(activeBtn,true);
+    }
   };
-  if(list)new MutationObserver(syncAudioState).observe(list,{attributes:true,subtree:true,attributeFilter:['class']});
+
+  if(audioEl){
+    ['play','playing','pause','ended','emptied'].forEach(evt=>audioEl.addEventListener(evt,()=>requestAnimationFrame(syncAudioState)));
+  }
+  if(list)new MutationObserver(()=>requestAnimationFrame(syncAudioState)).observe(list,{attributes:true,subtree:true,attributeFilter:['class']});
+
+  setTimeout(()=>{enhanceAll();syncAudioState()},300);
 })();
