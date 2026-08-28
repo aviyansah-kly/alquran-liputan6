@@ -14,16 +14,9 @@
       text-overflow:ellipsis;
       white-space:nowrap;
     }
-    .qari-select{
-      width:210px;
-      max-width:210px;
-    }
-    .ayat-jump{
-      width:128px;
-      min-width:128px;
-    }
+    .qari-select{width:210px;max-width:210px}
+    .ayat-jump{width:128px;min-width:128px}
 
-    /* Figma 9410:6330 — title and player are one connected surface */
     .surah-hero{
       border-radius:12px 12px 0 0!important;
       border-bottom:0!important;
@@ -38,14 +31,8 @@
       gap:22px!important;
       z-index:49;
     }
-    body:has(.header.is-returning) .reader-tools{
-      top:184px!important;
-    }
-    body:has(.channel-nav.is-sticky) .reader-tools{
-      top:56px!important;
-    }
+    body:has(.channel-nav.is-sticky) .reader-tools{top:56px!important}
 
-    /* Keep toolbar copy on one line */
     #playFull,.font-label,.reader-tools .tool-btn{
       white-space:nowrap;
       flex-shrink:0;
@@ -66,8 +53,7 @@
       outline:2px solid rgba(0,66,165,.32);
       outline-offset:2px;
     }
-    #playFull:active,
-    #playFull.is-pressed{
+    #playFull:active,#playFull.is-pressed{
       transform:scale(.96);
       background:#374151!important;
       border-color:#374151!important;
@@ -78,11 +64,7 @@
       border-color:#0042a5!important;
       box-shadow:0 4px 12px rgba(0,66,165,.18);
     }
-    .font-label{
-      min-width:max-content;
-    }
-
-    /* Clear interaction feedback for Arabic font-size controls */
+    .font-label{min-width:max-content}
     .font-size-btn{
       cursor:pointer;
       transition:background-color .16s ease,border-color .16s ease,color .16s ease,transform .1s ease,box-shadow .16s ease;
@@ -98,8 +80,7 @@
       outline-offset:2px;
       border-color:#0042a5!important;
     }
-    .font-size-btn:active,
-    .font-size-btn.is-pressed{
+    .font-size-btn:active,.font-size-btn.is-pressed{
       transform:scale(.94);
       background:#fff0e6!important;
       border-color:#ff8d70!important;
@@ -107,15 +88,71 @@
       box-shadow:0 0 0 3px rgba(255,51,0,.08);
     }
 
+    .surah-global-trending{
+      width:980px;
+      height:54px;
+      margin:24px auto 0;
+      border:1px solid #ff633d;
+      background:#fffbf7;
+      border-radius:8px;
+      display:flex;
+      align-items:center;
+      padding:0 24px;
+      gap:30px;
+      overflow:hidden;
+      font-family:Inter,Arial,sans-serif;
+    }
+    .surah-global-trending .trend-title{
+      font-size:16px;
+      font-weight:700;
+      color:#0042a5;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      white-space:nowrap;
+    }
+    .surah-global-trending .trend-title .icon{width:20px;height:20px}
+    .surah-global-trending .trend-chips{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      white-space:nowrap;
+      overflow:hidden;
+    }
+    .surah-global-trending .trend-chip{
+      font-size:14px;
+      line-height:20px;
+      background:#fff0e6;
+      padding:5px 12px;
+      border-radius:99px;
+    }
+
     @media(max-width:900px){
       .qari-select{width:200px;max-width:200px}
       .ayat-jump{width:124px;min-width:124px}
       .surah-hero{padding:18px 20px!important}
       .reader-tools{top:56px!important}
-      body:has(.header.is-returning) .reader-tools{top:166px!important}
+      .surah-global-trending{display:none}
     }
   `;
   document.head.appendChild(style);
+
+  function mountGlobalStrips(){
+    if(document.querySelector('.surah-global-trending'))return;
+    const reader=document.querySelector('.reader-page');
+    if(!reader)return;
+    const trending=document.createElement('div');
+    trending.className='trending surah-global-trending';
+    trending.innerHTML=`<div class="trend-title"><i data-lucide="trending-up" class="icon"></i>Trending</div><div class="trend-chips"><span class="trend-chip">Raja Ampat</span><span class="trend-chip">Haji</span><span class="trend-chip">Haji 2025</span><span class="trend-chip">Indonesia vs China</span><span class="trend-chip">Idul Adha 2025</span><span class="trend-chip">Indonesia Open</span></div>`;
+    reader.parentNode.insertBefore(trending,reader);
+    lucide.createIcons();
+    if(!window.__l6HeadlineRequested){
+      window.__l6HeadlineRequested=true;
+      const h=document.createElement('script');
+      h.src='figma-headline.js?v=2';
+      document.body.appendChild(h);
+    }
+  }
 
   const playFull=document.getElementById('playFull');
   if(playFull){
@@ -158,6 +195,8 @@
     const next=Math.max(34,Math.min(68,current+delta));
     verses.forEach(el=>el.style.setProperty('font-size',`${next}px`,'important'));
   };
+
+  mountGlobalStrips();
 
   if(!window.__l6FigmaFooterRequested){
     window.__l6FigmaFooterRequested=true;
