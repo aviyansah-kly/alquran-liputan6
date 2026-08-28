@@ -53,6 +53,30 @@
     #playFull{
       min-width:84px;
       justify-content:center;
+      cursor:pointer;
+      transition:background-color .16s ease,border-color .16s ease,transform .1s ease,box-shadow .16s ease;
+      user-select:none;
+    }
+    #playFull:hover{
+      background:#1f2937!important;
+      border-color:#1f2937!important;
+      box-shadow:0 4px 10px rgba(3,7,18,.14);
+    }
+    #playFull:focus-visible{
+      outline:2px solid rgba(0,66,165,.32);
+      outline-offset:2px;
+    }
+    #playFull:active,
+    #playFull.is-pressed{
+      transform:scale(.96);
+      background:#374151!important;
+      border-color:#374151!important;
+      box-shadow:0 0 0 3px rgba(0,66,165,.08);
+    }
+    #playFull.is-playing{
+      background:#0042a5!important;
+      border-color:#0042a5!important;
+      box-shadow:0 4px 12px rgba(0,66,165,.18);
     }
     .font-label{
       min-width:max-content;
@@ -99,6 +123,18 @@
     if(textNode)textNode.textContent='Putar';
     playFull.setAttribute('aria-label','Putar surah');
     playFull.setAttribute('title','Putar surah');
+    playFull.addEventListener('pointerdown',()=>playFull.classList.add('is-pressed'));
+    const clearPressed=()=>playFull.classList.remove('is-pressed');
+    playFull.addEventListener('pointerup',clearPressed);
+    playFull.addEventListener('pointerleave',clearPressed);
+    playFull.addEventListener('pointercancel',clearPressed);
+    playFull.addEventListener('click',()=>{
+      playFull.classList.toggle('is-playing');
+      const labelNode=[...playFull.childNodes].find(n=>n.nodeType===Node.TEXT_NODE);
+      if(labelNode)labelNode.textContent=playFull.classList.contains('is-playing')?'Jeda':'Putar';
+      playFull.setAttribute('aria-pressed',playFull.classList.contains('is-playing')?'true':'false');
+      playFull.setAttribute('title',playFull.classList.contains('is-playing')?'Jeda surah':'Putar surah');
+    });
   }
 
   const fontLabel=document.querySelector('.font-label');
