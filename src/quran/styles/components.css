@@ -28,6 +28,22 @@
   transition:border-color .15s ease,background-color .15s ease,box-shadow .15s ease;
 }
 
+/* Shared Quran action height */
+.ayah-actions .ayah-action{
+  height:40px;
+  min-height:40px;
+  padding:0 12px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  line-height:1;
+  box-sizing:border-box;
+}
+.ayah-actions a.ayah-action{
+  text-decoration:none;
+}
+
 /* Shared button behaviour — production handoff baseline */
 button,.orange-btn,.tool-btn,.load,.ayah-action,.finder-example,.quran-load-more{
   cursor:pointer;
@@ -106,46 +122,47 @@ button:disabled,.tool-btn:disabled,.load:disabled,.ayah-action:disabled,.quran-l
 .quran-skeleton-actions::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.72),transparent);animation:quran-skeleton-shimmer 1.35s infinite;}
 @keyframes quran-skeleton-shimmer{100%{transform:translateX(100%)}}
 
-/* Shared Quran audio dock pattern */
+/* Detail Ayat audio dock follows the Surah Reader black player pattern */
 .detail-audio-dock{
   position:fixed;
   left:50%;
   bottom:18px;
-  z-index:70;
-  width:min(640px,calc(100vw - 28px));
+  z-index:90;
+  width:min(620px,calc(100vw - 28px));
   min-height:64px;
-  transform:translate(-50%,18px);
-  opacity:0;
-  pointer-events:none;
+  transform:translate(-50%,140%);
   display:flex;
   align-items:center;
   gap:12px;
-  padding:10px 12px;
-  border:1px solid var(--quran-border);
-  border-radius:var(--quran-radius-lg);
-  background:rgba(255,255,255,.98);
-  backdrop-filter:blur(12px);
-  box-shadow:0 14px 40px rgba(3,7,18,.14);
-  transition:opacity .2s ease,transform .24s cubic-bezier(.22,1,.36,1);
+  padding:10px 14px;
+  border:0;
+  border-radius:12px;
+  background:#030712;
+  color:#fff;
+  box-shadow:0 14px 40px rgba(3,7,18,.28);
+  opacity:1;
+  pointer-events:auto;
+  transition:transform .25s ease;
 }
-.detail-audio-dock.show{opacity:1;transform:translate(-50%,0);pointer-events:auto;}
+.detail-audio-dock.show{transform:translate(-50%,0);}
 .detail-audio-toggle,.detail-audio-close{
   flex:0 0 auto;
-  width:40px;
-  height:40px;
-  border:1px solid var(--quran-border);
-  border-radius:var(--quran-radius-md);
+  width:36px;
+  height:36px;
+  border:0;
+  border-radius:50%;
   background:#fff;
+  color:#030712;
   display:flex;
   align-items:center;
   justify-content:center;
 }
-.detail-audio-toggle{background:var(--quran-text-primary);color:#fff;border-color:var(--quran-text-primary);}
+.detail-audio-close{background:transparent;color:#fff;}
 .detail-audio-info{min-width:0;flex:1;}
-.detail-audio-title{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.detail-audio-sub{margin-top:2px;font-size:11px;color:var(--quran-text-secondary);}
-.detail-audio-progress{height:3px;margin-top:7px;border-radius:99px;background:#e7eaf0;overflow:hidden;}
-.detail-audio-progress span{display:block;width:0;height:100%;background:var(--quran-brand-blue);transition:width .1s linear;}
+.detail-audio-title{font-size:12px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.detail-audio-sub{margin-top:3px;font-size:12px;color:#cbd5e1;}
+.detail-audio-progress{height:3px;margin-top:6px;border-radius:10px;background:#374151;overflow:hidden;}
+.detail-audio-progress span{display:block;width:0;height:100%;background:linear-gradient(90deg,#f30,#ff934b);transition:width .1s linear;}
 
 body.quran-reading-mode .trending{
   display:none!important;
@@ -156,8 +173,9 @@ body.quran-reading-mode .trending{
   .lead,.detail-section p,.ayah-translation{font-size:var(--quran-font-body);}
   .load,.quran-load-more{min-height:var(--quran-control-mobile);}
   .quran-skeleton-actions{width:130px;}
-  .detail-audio-dock{bottom:12px;min-height:60px;}
-  .detail-audio-toggle,.detail-audio-close{width:44px;height:44px;}
+  .ayah-actions .ayah-action{height:44px;min-height:44px;}
+  .detail-audio-dock{bottom:12px;min-height:64px;}
+  .detail-audio-toggle,.detail-audio-close{width:40px;height:40px;}
 }
 
 @media(prefers-reduced-motion:reduce){
