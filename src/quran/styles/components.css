@@ -1,0 +1,38 @@
+.finder,.surah,.detail-verse-card,.ayat-detail-hero,.surah-hero{
+  border-radius:var(--quran-radius-lg);
+}
+
+.orange-btn,.tool-btn,.filter,.detail-select-wrap select,.load,.ayah-action{
+  border-radius:var(--quran-radius-md);
+}
+
+.finder-example,.trend-chip{
+  border-radius:var(--quran-radius-full);
+}
+
+.lead,.detail-section p,.arti-text,.tafsir-text,.ayah-translation{
+  font-size:var(--quran-font-body);
+}
+
+.detail-section p,.ayah-translation{
+  line-height:1.9;
+}
+
+.finder-example,.detail-anchor-nav a{
+  display:inline-flex;
+  align-items:center;
+  min-height:36px;
+}
+
+.surah,.journey-card,.ayat-page-nav a,.surah-nav a{
+  transition:border-color .15s ease,background-color .15s ease,box-shadow .15s ease;
+}
+
+body.quran-reading-mode .trending{
+  display:none!important;
+}
+
+@media(max-width:767px){
+  .main h1{font-size:28px;}
+  .lead,.detail-section p,.ayah-translation{font-size:var(--quran-font-body);}
+}
