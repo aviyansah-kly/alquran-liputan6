@@ -7,8 +7,9 @@
     if(!document.getElementById('ayat-nav-v7-style')){
       const st=document.createElement('style');st.id='ayat-nav-v7-style';st.textContent=`
         .ayat-command-bar{transition:width .3s cubic-bezier(.22,1,.36,1),box-shadow .22s ease,border-radius .22s ease!important}
+        .ayat-command-nav{display:none!important}
         .ayat-command-bar.is-sticky-reader .ayat-command-context{width:132px!important;min-width:132px!important}
-        .ayat-command-bar.is-sticky-reader .ayat-command-nav{gap:6px!important;padding-left:8px!important}
+        .ayat-command-bar.is-sticky-reader .ayat-command-nav{display:flex!important;gap:6px!important;padding-left:8px!important}
         .ayat-command-bar.is-sticky-reader .ayat-command-nav button{width:126px!important;min-width:126px!important;height:40px!important;padding:0 10px!important;gap:7px!important;justify-content:flex-start!important}
         .ayat-command-bar.is-sticky-reader .ayat-command-nav button[data-dir="next"]{justify-content:flex-end!important;text-align:right}
         .ayat-command-nav-copy{min-width:0;display:flex;flex-direction:column;line-height:1.05}
@@ -20,7 +21,7 @@
           .ayat-command-bar.is-sticky-reader .ayat-command-nav button{width:114px!important;min-width:114px!important;padding:0 8px!important}
           .ayat-command-nav-name{max-width:74px}
         }
-        @media(max-width:900px){.ayat-command-nav-copy{display:none!important}}
+        @media(max-width:900px){.ayat-command-bar.is-sticky-reader .ayat-command-nav{display:none!important}.ayat-command-nav-copy{display:none!important}}
       `;document.head.appendChild(st);
     }
     const defs=[['prev','Sebelumnya','prevAyat','prevAyatLabel'],['next','Berikutnya','nextAyat','nextAyatLabel']];
