@@ -1,0 +1,49 @@
+/* Page rules only. Shared visual primitives belong in components.css. */
+
+@media(min-width:1024px){
+  .layout,.reader-page{
+    max-width:var(--quran-content-width);
+  }
+}
+
+@media(min-width:768px) and (max-width:1023px){
+  .layout,.reader-page{
+    width:auto;
+    margin-left:24px;
+    margin-right:24px;
+    grid-template-columns:minmax(0,1fr);
+  }
+  .sidebar{display:none;}
+  .reader-tools{flex-wrap:wrap;}
+}
+
+@media(max-width:767px){
+  .wrap,.layout,.reader-page,.footer-inner{
+    width:auto;
+    margin-left:16px;
+    margin-right:16px;
+  }
+
+  .journey{grid-template-columns:1fr;}
+  .surah-grid{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+
+  .reader-tools{
+    align-items:stretch;
+    overflow:visible;
+    white-space:normal;
+  }
+  .tool-left,.tool-right{
+    width:100%;
+    flex-wrap:wrap;
+  }
+  .qari-select,.ayat-jump{
+    max-width:none;
+    flex:1 1 160px;
+  }
+
+  .detail-anchor-nav{
+    overflow-x:auto;
+    overscroll-behavior-x:contain;
+  }
+}
