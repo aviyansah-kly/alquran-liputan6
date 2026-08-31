@@ -2,6 +2,12 @@
   if(window.__l6ReaderStickyThresholdFix)return;
   window.__l6ReaderStickyThresholdFix=true;
 
+  if(!document.querySelector('link[data-quran-v7-design-system]')){
+    const ds=document.createElement('link');
+    ds.rel='stylesheet';ds.href='src/quran/styles/index.css?v=3';ds.dataset.quranV7DesignSystem='true';
+    document.head.appendChild(ds);
+  }
+
   const tools=document.querySelector('.reader-tools');
   const hero=document.querySelector('.surah-hero');
   if(!tools||!hero)return;
@@ -84,41 +90,30 @@
   const enhanceNavLabels=()=>{
     const nav=tools.querySelector('.reader-surah-nav');
     if(!nav)return;
-    const pairs=[
-      ['prev','Sebelumnya','prevSurah'],
-      ['next','Berikutnya','nextSurah']
-    ];
+    const pairs=[['prev','Sebelumnya','prevSurah'],['next','Berikutnya','nextSurah']];
     pairs.forEach(([dir,label,targetId])=>{
-      const btn=nav.querySelector(`[data-dir="${dir}"]`);
-      if(!btn)return;
+      const btn=nav.querySelector(`[data-dir="${dir}"]`);if(!btn)return;
       const target=document.getElementById(targetId);
       const name=(target?.querySelector('b')?.textContent||'').trim()||'Surah';
       if(!btn.querySelector('.reader-surah-nav-copy')){
-        const copy=document.createElement('span');
-        copy.className='reader-surah-nav-copy';
+        const copy=document.createElement('span');copy.className='reader-surah-nav-copy';
         copy.innerHTML=`<span class="reader-surah-nav-label">${label}</span><span class="reader-surah-nav-name"></span>`;
         if(dir==='prev')btn.appendChild(copy);else btn.insertBefore(copy,btn.firstChild);
       }
-      const nameEl=btn.querySelector('.reader-surah-nav-name');
-      if(nameEl){nameEl.textContent=name;nameEl.title=name}
-      btn.setAttribute('aria-label',`${label}: ${name}`);
-      btn.title=`${label}: ${name}`;
+      const nameEl=btn.querySelector('.reader-surah-nav-name');if(nameEl){nameEl.textContent=name;nameEl.title=name}
+      btn.setAttribute('aria-label',`${label}: ${name}`);btn.title=`${label}: ${name}`;
     });
   };
-  setTimeout(enhanceNavLabels,500);
-  setTimeout(enhanceNavLabels,1200);
+  setTimeout(enhanceNavLabels,500);setTimeout(enhanceNavLabels,1200);
 
   let toolbarOrigin=0;
-  const stickyTop=56;
-  const hysteresis=2;
-
+  const stickyTop=56,hysteresis=2;
   const measureOrigin=()=>{
     const hadClass=tools.classList.contains('is-reader-sticky');
     if(hadClass)tools.classList.remove('is-reader-sticky');
     toolbarOrigin=hero.getBoundingClientRect().bottom+window.scrollY;
     if(hadClass)sync();
   };
-
   const sync=()=>{
     const channelSticky=document.querySelector('.channel-nav')?.classList.contains('is-sticky');
     const crossed=window.scrollY+stickyTop+hysteresis>=toolbarOrigin;
