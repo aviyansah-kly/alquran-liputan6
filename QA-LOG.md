@@ -87,6 +87,26 @@ Regression checks:
 - Skeleton animation is disabled under `prefers-reduced-motion`.
 - Skeleton elements are non-interactive / hidden from assistive semantics where applicable.
 
+## QA-07 — Shared Load More pattern + informative sticky Surah navigation
+**Commits:** `d3ef0ee`, `a210634`
+**Status:** PASS (design-system/space/interaction), preview visual verification required.
+
+Changes:
+- Homepage `Tampilkan lebih banyak` and Surah `Tampilkan 10 Ayat Berikutnya` now share one secondary full-width button pattern in the v7 design system.
+- Shared states are fixed as: default, hover, active/pressed, focus-visible, loading/disabled.
+- Surah Reader runtime explicitly loads the v7 design-system entry point.
+- Sticky previous/next navigation now shows direction plus destination Surah name instead of icon-only controls.
+- Long Surah names use ellipsis while full names remain available in title/ARIA labels.
+- Sticky toolbar compacts non-essential labels and select widths so destination names fit within the 980px desktop toolbar.
+- Sticky toolbar expansion now transitions from an explicit 640px width to 980px using a smooth easing curve; it no longer transitions from `auto`, which could not animate reliably.
+
+Regression checks:
+- Putar, Qari, Pilih Ayat and A−/A+ remain available while sticky.
+- `Teks Arab` label may hide while sticky, but the A−/A+ controls remain visible and accessible.
+- At 901–1040px the sticky layout uses a tighter compact variant.
+- At <=900px destination navigation remains compact/hidden to avoid toolbar overflow.
+- Prev/Next buttons retain hover, pressed, focus and disabled semantics.
+
 ## Visual QA Gate before next structural pass
 Test preview deployment at minimum:
 - 320px
@@ -100,13 +120,15 @@ Flows:
 2. Open Al-Fatihah and Al-Baqarah.
 3. Confirm Al-Baqarah initially shows 10 ayat only.
 4. Use `Tampilkan 10 Ayat Berikutnya` repeatedly and verify continuity 10 -> 20 -> 30.
-5. Verify Load More hover / pressed / keyboard focus / disabled-loading behavior.
+5. Verify Homepage and Surah Load More share the same visual treatment and hover / pressed / keyboard focus / disabled-loading behavior.
 6. Jump to a late ayat (e.g. 255) and confirm the target renders and scrolls correctly.
 7. Audio play and auto-next across a batch boundary (e.g. ayat 10 -> 11).
-8. Open Detail Ayat and confirm skeleton appears immediately.
-9. Confirm Arabic/translation replace their skeleton before Tafsir when Tafsir is slower.
-10. Previous/next ayat and Surah navigation.
-11. Mobile sticky navigation / audio dock.
-12. Confirm no major layout jump when skeletons are replaced with real content.
+8. Scroll until the Reader Toolbar becomes sticky: verify its expansion is smooth and does not snap.
+9. Verify desktop sticky Prev/Next displays direction + destination Surah name, including a long-name truncation case.
+10. Open Detail Ayat and confirm skeleton appears immediately.
+11. Confirm Arabic/translation replace their skeleton before Tafsir when Tafsir is slower.
+12. Previous/next ayat and Surah navigation.
+13. Mobile sticky navigation / audio dock.
+14. Confirm no major layout jump when skeletons are replaced with real content.
 
 Do not proceed to the next structural cleanup if this preview gate exposes a regression.
