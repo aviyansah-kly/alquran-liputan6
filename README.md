@@ -1,27 +1,53 @@
-# Al-Quran Liputan6 Prototype
+# Al-Qur'an Liputan6 Revamp
 
-Prototype redesign halaman Quran Liputan6 dengan fokus pada UX membaca, pencarian surah, akses cepat, navigasi Surah/Juz, serta visual language Liputan6 terbaru.
+Prototype and frontend handoff reference for the Liputan6 Al-Qur'an experience.
 
-## Current baseline
-- Single-file static prototype (`index.html`)
-- Responsive desktop/mobile
-- Search surah
-- Filter Makkiyah/Madaniyah
-- Surah/Juz tabs
-- Quick access
-- Reader interaction prototype
+## Current product scope
+- Quran Home: search, continue reading, surah discovery
+- Surah Reader: Arabic text, translation, audio, qari selection, ayat navigation
+- Ayat Detail: arti, tafsir, editorial sections, FAQ and share/audio actions
+- Responsive desktop/tablet/mobile behavior
+- Liputan6 global shell + Islami channel navigation
 
-## Design reference
-Figma: New Homepage L6 — frame/node reference supplied for the Liputan6 navigation and visual tokens.
+## Active handoff branch
+`feat/quran-v7-design-system`
 
-## Deployment
-Recommended flow: GitHub → Vercel. Connect this repository to a Vercel project and use the repository root as the production source.
+This branch is for UI/UX consolidation and frontend handoff readiness. Production `main` should only be updated after preview QA and PR approval.
 
-## Next iterations
-- Replace placeholder header elements with exact Figma assets
-- Complete all 114 surah
-- Dedicated surah reader routes
-- Real Quran data/audio integration
-- Sticky murottal player
-- Bookmark and last-read prototype
-- Reading preferences and accessibility controls
+## Frontend structure
+Use `src/quran/` as the implementation-oriented reference:
+
+```text
+src/quran/
+├── README.md
+├── styles/
+│   ├── index.css
+│   ├── tokens.css
+│   ├── base.css
+│   ├── components.css
+│   └── pages.css
+└── js/
+    └── routes.js
+```
+
+The existing versioned prototype files remain temporarily for regression comparison. They are not the recommended production architecture.
+
+## Handoff documentation
+See `QURAN-HANDOFF.md` for:
+- information hierarchy
+- design tokens
+- component states
+- accessibility requirements
+- responsive acceptance criteria
+- source attribution rules
+- definition of done
+
+## Deployment flow
+Recommended project workflow:
+
+`feature branch -> Cloudflare preview -> UI/UX + responsive QA -> PR approval -> merge main -> production Cloudflare deployment`
+
+Current production reference:
+`https://alquran-liputan6.avi-yansah.workers.dev/prototype-v6`
+
+Do not merge UI refactoring directly to `main` before preview QA.
