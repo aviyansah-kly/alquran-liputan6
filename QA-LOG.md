@@ -107,6 +107,26 @@ Regression checks:
 - At <=900px destination navigation remains compact/hidden to avoid toolbar overflow.
 - Prev/Next buttons retain hover, pressed, focus and disabled semantics.
 
+## QA-08 — Audio state consistency + informative sticky Ayat navigation
+**Commits:** `fb1d059`, `63f7f84`, `9f9c6d3`, `3d32051`, `38c7790`
+**Status:** PASS (code/state/interaction), preview visual verification required.
+
+Changes:
+- Surah `Putar` now behaves as a true Play/Pause toggle instead of restarting playback on every click.
+- Surah playback button state is synchronized to the actual `<audio>` state so legacy toolbar click styling cannot desync the UI.
+- Detail Ayat `Putar` now opens a persistent bottom audio player with play/pause, current ayat, qari, progress and close controls.
+- Detail Ayat trigger button and bottom player remain synchronized across play, pause, ended and close states.
+- Sticky Detail Ayat previous/next controls now show `Sebelumnya/Berikutnya` plus destination ayat label instead of arrow-only navigation.
+- Destination labels use ellipsis where needed while complete labels remain available in tooltip/ARIA text.
+- Sticky Detail Ayat expansion uses the same smooth width-transition approach as the Surah Reader.
+
+Regression checks:
+- Pausing Surah does not reset currentTime; pressing Putar resumes the same audio.
+- Closing Detail Ayat player pauses playback and resets the trigger button to Putar.
+- Audio completion resets player and trigger controls to a non-playing state.
+- Prev/Next still uses the existing validated navigation URLs from `prevAyat` / `nextAyat`.
+- Existing Quran API, Tafsir and Share behavior is unchanged.
+
 ## Visual QA Gate before next structural pass
 Test preview deployment at minimum:
 - 320px
@@ -122,13 +142,16 @@ Flows:
 4. Use `Tampilkan 10 Ayat Berikutnya` repeatedly and verify continuity 10 -> 20 -> 30.
 5. Verify Homepage and Surah Load More share the same visual treatment and hover / pressed / keyboard focus / disabled-loading behavior.
 6. Jump to a late ayat (e.g. 255) and confirm the target renders and scrolls correctly.
-7. Audio play and auto-next across a batch boundary (e.g. ayat 10 -> 11).
-8. Scroll until the Reader Toolbar becomes sticky: verify its expansion is smooth and does not snap.
-9. Verify desktop sticky Prev/Next displays direction + destination Surah name, including a long-name truncation case.
-10. Open Detail Ayat and confirm skeleton appears immediately.
-11. Confirm Arabic/translation replace their skeleton before Tafsir when Tafsir is slower.
-12. Previous/next ayat and Surah navigation.
-13. Mobile sticky navigation / audio dock.
-14. Confirm no major layout jump when skeletons are replaced with real content.
+7. Play Surah, pause from the same Putar/Jeda button, then resume and confirm playback does not restart.
+8. Audio play and auto-next across a batch boundary (e.g. ayat 10 -> 11).
+9. Scroll until the Reader Toolbar becomes sticky: verify its expansion is smooth and does not snap.
+10. Verify desktop sticky Surah Prev/Next displays direction + destination Surah name, including a long-name truncation case.
+11. Open Detail Ayat and confirm skeleton appears immediately.
+12. Confirm Arabic/translation replace their skeleton before Tafsir when Tafsir is slower.
+13. Play Detail Ayat and verify the bottom player appears, reflects the same state, can pause/resume, updates progress and closes cleanly.
+14. Verify sticky Detail Ayat Prev/Next displays direction + destination ayat information and remains readable at 1024px+.
+15. Previous/next ayat and Surah navigation.
+16. Mobile sticky navigation / audio dock.
+17. Confirm no major layout jump when skeletons are replaced with real content.
 
 Do not proceed to the next structural cleanup if this preview gate exposes a regression.
