@@ -2,6 +2,13 @@ const API='https://equran.id/api/v2';
 const p=new URLSearchParams(location.search),sid=Math.min(114,Math.max(1,+(p.get('surah')||1))),aid=Math.max(1,+(p.get('ayat')||1));
 let data=null,verse=null;const qari='05';const $=id=>document.getElementById(id);
 
+function reveal(id,skeletonId){const el=$(id),sk=$(skeletonId);if(sk)sk.remove();if(el)el.hidden=false}
+function failCore(message='Silakan refresh halaman.'){
+  ['detailTitle','detailMeta','detailArab','detailLatin','artiText'].forEach(id=>{const el=$(id);if(el)el.hidden=false});
+  ['detailTitleSkeleton','detailMetaSkeleton','detailArabSkeleton','detailLatinSkeleton','artiSkeleton'].forEach(id=>$(id)?.remove());
+  $('detailTitle').textContent='Data ayat belum dapat dimuat';$('artiText').textContent=message;
+}
+
 async function init(){
   try{
     const sr=await fetch(`${API}/surat/${sid}`);
@@ -12,9 +19,8 @@ async function init(){
     renderCore();
     loadTafsir();
   }catch(e){
-    $('detailTitle').textContent='Data ayat belum dapat dimuat';
-    $('artiText').textContent='Silakan refresh halaman.';
-    $('tafsirText').textContent='Tafsir belum dapat dimuat.';
+    failCore();
+    $('tafsirSkeleton')?.remove();$('tafsirText').hidden=false;$('tafsirText').textContent='Tafsir belum dapat dimuat.';
   }
 }
 
@@ -24,11 +30,13 @@ function renderCore(){
   document.querySelector('meta[name="description"]').setAttribute('content',`Baca ${name} ayat ${n} lengkap dengan arti Bahasa Indonesia, tafsir, poin penting, Asbabun Nuzul dan FAQ.`);
   $('surahCrumb').textContent=name;$('surahCrumb').href=`surah-v4.html?surah=${sid}`;
   $('ayatCrumb').textContent=`Ayat ${n}`;$('backSurah').href=`surah-v4.html?surah=${sid}&ayat=${n}`;
-  $('ayatKicker').textContent=`Surah ke-${sid} · Ayat ${n}`;$('detailTitle').textContent=`${name} Ayat ${n}`;
-  $('detailMeta').textContent=`${data.arti} · ${data.tempatTurun} · ${data.jumlahAyat} ayat`;
-  $('detailArabicName').textContent=data.nama;$('detailArab').textContent=verse.teksArab;
-  $('detailLatin').innerHTML=verse.teksLatin||'';$('artiText').textContent=verse.teksIndonesia||'';
-  $('tafsirText').textContent='Memuat tafsir...';
+  $('ayatKicker').textContent=`Surah ke-${sid} · Ayat ${n}`;
+  $('detailTitle').textContent=`${name} Ayat ${n}`;reveal('detailTitle','detailTitleSkeleton');
+  $('detailMeta').textContent=`${data.arti} · ${data.tempatTurun} · ${data.jumlahAyat} ayat`;reveal('detailMeta','detailMetaSkeleton');
+  $('detailArabicName').textContent=data.nama;
+  $('detailArab').textContent=verse.teksArab;reveal('detailArab','detailArabSkeleton');
+  $('detailLatin').innerHTML=verse.teksLatin||'';reveal('detailLatin','detailLatinSkeleton');
+  $('artiText').textContent=verse.teksIndonesia||'';reveal('artiText','artiSkeleton');
   $('detailJump').innerHTML=data.ayat.map(v=>`<option value="${v.nomorAyat}" ${v.nomorAyat===n?'selected':''}>Ayat ${v.nomorAyat}</option>`).join('');
   $('detailJump').onchange=e=>location.href=`ayat-v5.html?surah=${sid}&ayat=${e.target.value}`;
   setNav(n);setupAudio();
@@ -45,6 +53,8 @@ async function loadTafsir(){
     $('tafsirText').textContent=taf?.teks||'Tafsir belum tersedia untuk ayat ini dari sumber API.';
   }catch(e){
     $('tafsirText').textContent='Tafsir sedang tidak dapat dimuat. Silakan coba kembali.';
+  }finally{
+    reveal('tafsirText','tafsirSkeleton');
   }
 }
 
