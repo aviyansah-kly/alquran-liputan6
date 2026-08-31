@@ -1,0 +1,42 @@
+:root{
+  --quran-text-primary:#030712;
+  --quran-text-secondary:#4f4f4f;
+  --quran-text-tertiary:#6b7280;
+  --quran-brand-blue:#0042a5;
+  --quran-brand-orange:#ff3300;
+  --quran-surface-primary:#ffffff;
+  --quran-surface-secondary:#f6f8ff;
+  --quran-surface-accent:#fffbf7;
+  --quran-border:rgba(79,79,79,.12);
+  --quran-focus:rgba(255,51,0,.28);
+
+  --quran-space-1:4px;
+  --quran-space-2:8px;
+  --quran-space-3:12px;
+  --quran-space-4:16px;
+  --quran-space-5:20px;
+  --quran-space-6:24px;
+  --quran-space-8:32px;
+  --quran-space-10:40px;
+  --quran-space-12:48px;
+  --quran-space-16:64px;
+
+  --quran-radius-sm:4px;
+  --quran-radius-md:8px;
+  --quran-radius-lg:12px;
+  --quran-radius-xl:16px;
+  --quran-radius-full:999px;
+
+  --quran-font-caption:12px;
+  --quran-font-control:14px;
+  --quran-font-body:16px;
+  --quran-font-section:20px;
+  --quran-font-title:32px;
+
+  --quran-control-desktop:40px;
+  --quran-control-mobile:44px;
+  --quran-content-width:980px;
+  --quran-reader-width:640px;
+  --quran-rail-width:300px;
+  --quran-layout-gap:40px;
+}
