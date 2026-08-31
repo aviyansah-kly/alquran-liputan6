@@ -102,7 +102,7 @@ function setupAudio(){
 
 function loadEnhancements(){
   if(!window.__l6QuranGlobalShell&&!window.__l6QuranGlobalShellRequested){window.__l6QuranGlobalShellRequested=true;const s=document.createElement('script');s.src='quran-global-shell.js?v=2';s.defer=true;document.body.appendChild(s)}
-  const enhance=document.createElement('script');enhance.src='ayat-reader-enhance.js?v=3';enhance.defer=true;document.body.appendChild(enhance);
+  const enhance=document.createElement('script');enhance.src='ayat-reader-enhance.js?v=3';enhance.defer=true;enhance.onload=()=>{const nav=document.createElement('script');nav.src='ayat-nav-v7.js?v=1';nav.defer=true;document.body.appendChild(nav)};document.body.appendChild(enhance);
   const polish=document.createElement('script');polish.src='ayat-detail-polish.js?v=1';polish.defer=true;document.body.appendChild(polish);
 }
 
