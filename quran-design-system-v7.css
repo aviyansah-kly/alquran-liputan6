@@ -1,0 +1,104 @@
+:root{
+  --quran-text-primary:#030712;
+  --quran-text-secondary:#4f4f4f;
+  --quran-text-tertiary:#6b7280;
+  --quran-brand-blue:#0042a5;
+  --quran-brand-orange:#ff3300;
+  --quran-surface-primary:#ffffff;
+  --quran-surface-secondary:#f6f8ff;
+  --quran-surface-accent:#fffbf7;
+  --quran-border:rgba(79,79,79,.12);
+  --quran-focus:rgba(255,51,0,.28);
+
+  --quran-space-1:4px;
+  --quran-space-2:8px;
+  --quran-space-3:12px;
+  --quran-space-4:16px;
+  --quran-space-5:20px;
+  --quran-space-6:24px;
+  --quran-space-8:32px;
+  --quran-space-10:40px;
+  --quran-space-12:48px;
+  --quran-space-16:64px;
+
+  --quran-radius-sm:4px;
+  --quran-radius-md:8px;
+  --quran-radius-lg:12px;
+  --quran-radius-xl:16px;
+  --quran-radius-full:999px;
+
+  --quran-font-caption:12px;
+  --quran-font-control:14px;
+  --quran-font-body:16px;
+  --quran-font-section:20px;
+  --quran-font-title:32px;
+
+  --quran-control-desktop:40px;
+  --quran-control-mobile:44px;
+}
+
+/* Shared interactive behavior */
+a,button,input,select,summary,[role="button"]{
+  -webkit-tap-highlight-color:transparent;
+}
+
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,[role="button"]:focus-visible{
+  outline:3px solid var(--quran-focus);
+  outline-offset:2px;
+}
+
+button,select,.tool-btn,.orange-btn,.load,.filter{
+  min-height:var(--quran-control-desktop);
+}
+
+.finder-example,.quick button,.detail-anchor-nav a{
+  min-height:36px;
+  display:inline-flex;
+  align-items:center;
+}
+
+/* Reading typography */
+.lead,.detail-section p,.arti-text,.tafsir-text{
+  font-size:var(--quran-font-body);
+}
+
+.detail-section p{
+  line-height:1.9;
+}
+
+/* Component normalization */
+.finder,.surah,.detail-verse-card,.ayat-detail-hero{
+  border-radius:var(--quran-radius-lg);
+}
+
+.orange-btn,.tool-btn,.filter,.detail-select-wrap select,.load{
+  border-radius:var(--quran-radius-md);
+}
+
+.finder-example,.trend-chip{
+  border-radius:var(--quran-radius-full);
+}
+
+/* Reduce distraction in reading contexts */
+body.quran-reading-mode .trending{
+  display:none!important;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    scroll-behavior:auto!important;
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
+  .header-search{animation:none!important;}
+}
+
+@media(max-width:900px){
+  button,select,.tool-btn,.orange-btn,.load,.filter,.finder-example,.detail-anchor-nav a{
+    min-height:var(--quran-control-mobile);
+  }
+  .main h1{font-size:28px;}
+  .lead,.detail-section p{font-size:16px;}
+}
