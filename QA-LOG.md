@@ -127,6 +127,22 @@ Regression checks:
 - Prev/Next still uses the existing validated navigation URLs from `prevAyat` / `nextAyat`.
 - Existing Quran API, Tafsir and Share behavior is unchanged.
 
+## QA-09 — Detail Ayat pre-sticky cleanup + equal actions + black player
+**Commits:** `4361818`, `755b8e0`
+**Status:** PASS (layout/design-system consistency), preview visual verification required.
+
+Changes:
+- Detail Ayat command-bar Prev/Next is hidden in the non-sticky state so the initial 640px toolbar remains clean and uncluttered.
+- Prev/Next appears only once the command bar enters sticky/expanded mode.
+- Quran ayat actions (`Audio`, `Simpan`, `Bagikan`, `Detail Ayat`) share one explicit height: 40px desktop and 44px mobile, including anchor-based actions.
+- Detail Ayat bottom audio player now matches the Surah Reader player: black `#030712` surface, white circular play/pause control, dark progress track and orange progress fill.
+
+Regression checks:
+- Sticky Prev/Next still retains destination labels, tooltip and ARIA text.
+- Mobile sticky navigation remains hidden to avoid overflow.
+- Equal action height does not remove existing hover, active or focus-visible states.
+- Audio play/pause/close state logic remains unchanged; this pass only standardizes visual treatment.
+
 ## Visual QA Gate before next structural pass
 Test preview deployment at minimum:
 - 320px
@@ -148,10 +164,12 @@ Flows:
 10. Verify desktop sticky Surah Prev/Next displays direction + destination Surah name, including a long-name truncation case.
 11. Open Detail Ayat and confirm skeleton appears immediately.
 12. Confirm Arabic/translation replace their skeleton before Tafsir when Tafsir is slower.
-13. Play Detail Ayat and verify the bottom player appears, reflects the same state, can pause/resume, updates progress and closes cleanly.
-14. Verify sticky Detail Ayat Prev/Next displays direction + destination ayat information and remains readable at 1024px+.
-15. Previous/next ayat and Surah navigation.
-16. Mobile sticky navigation / audio dock.
-17. Confirm no major layout jump when skeletons are replaced with real content.
+13. Before Detail Ayat toolbar becomes sticky, confirm there is no cramped Prev/Next navigation on the right side.
+14. When Detail Ayat toolbar becomes sticky, confirm Prev/Next appears with clear destination information.
+15. Verify Audio/Simpan/Bagikan/Detail Ayat action controls have exactly the same height and alignment.
+16. Play Detail Ayat and verify the bottom player uses the same black visual pattern as the Surah Reader player.
+17. Verify Detail Ayat bottom player pause/resume, progress and close behavior remain synchronized with the trigger button.
+18. Mobile sticky navigation / audio dock.
+19. Confirm no major layout jump when skeletons are replaced with real content.
 
 Do not proceed to the next structural cleanup if this preview gate exposes a regression.
