@@ -50,23 +50,30 @@ button:disabled,.tool-btn:disabled,.load:disabled,.ayah-action:disabled,.quran-l
   box-shadow:0 5px 14px rgba(255,51,0,.18);
 }
 
-.quran-load-more-wrap{
-  display:flex;
-  justify-content:center;
-  padding:var(--quran-space-6) 0 var(--quran-space-2);
-}
-.quran-load-more{
-  min-height:var(--quran-control-desktop);
+/* Secondary full-width button pattern used by Homepage + Surah Load More */
+.load,.quran-load-more{
+  width:100%;
+  min-height:42px;
   padding:0 18px;
   border:1px solid var(--quran-border);
   background:var(--quran-surface-primary);
   color:var(--quran-text-primary);
-  font-size:var(--quran-font-control);
+  font-size:12px;
   font-weight:600;
 }
-.quran-load-more:hover:not(:disabled){
+.load:hover:not(:disabled),.quran-load-more:hover:not(:disabled){
   background:var(--quran-surface-secondary);
   color:var(--quran-brand-blue);
+}
+.load:active:not(:disabled),.quran-load-more:active:not(:disabled){
+  background:var(--quran-surface-accent);
+  border-color:rgba(255,51,0,.32);
+}
+
+.quran-load-more-wrap{
+  display:flex;
+  width:100%;
+  padding:var(--quran-space-6) 0 var(--quran-space-2);
 }
 
 /* Stable skeletons for Quran API-driven content */
@@ -106,7 +113,7 @@ body.quran-reading-mode .trending{
 @media(max-width:767px){
   .main h1{font-size:28px;}
   .lead,.detail-section p,.ayah-translation{font-size:var(--quran-font-body);}
-  .quran-load-more{min-height:var(--quran-control-mobile);width:100%;}
+  .load,.quran-load-more{min-height:var(--quran-control-mobile);}
   .quran-skeleton-actions{width:130px;}
 }
 
