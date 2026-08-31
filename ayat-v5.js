@@ -68,14 +68,30 @@ function setNav(n){
   else $('nextAyat').style.visibility='hidden';
 }
 
+function ensureDetailAudioDock(){
+  let dock=$('detailAudioDock');
+  if(dock)return dock;
+  dock=document.createElement('div');dock.id='detailAudioDock';dock.className='detail-audio-dock';
+  dock.innerHTML=`<button type="button" id="detailAudioToggle" class="detail-audio-toggle" aria-label="Jeda audio"><i data-lucide="pause" class="icon"></i></button><div class="detail-audio-info"><div id="detailAudioTitle" class="detail-audio-title"></div><div id="detailAudioSub" class="detail-audio-sub">Misyari Rasyid Al-Afasy</div><div class="detail-audio-progress"><span id="detailAudioProgress"></span></div></div><button type="button" id="detailAudioClose" class="detail-audio-close" aria-label="Tutup pemutar"><i data-lucide="x" class="icon"></i></button>`;
+  document.body.appendChild(dock);if(window.lucide)lucide.createIcons();return dock;
+}
+function syncDetailPlayButton(isPlaying){const btn=$('playAyatBtn');if(!btn)return;btn.innerHTML=`<i data-lucide="${isPlaying?'pause':'play'}" class="icon"></i>${isPlaying?'Jeda':'Putar'}`;btn.setAttribute('aria-pressed',isPlaying?'true':'false');if(window.lucide)lucide.createIcons()}
 function setupAudio(){
   const src=(verse.audio||{})[qari]||Object.values(verse.audio||{})[0];
-  $('playAyatBtn').onclick=()=>{
+  const btn=$('playAyatBtn');
+  btn.onclick=()=>{
     if(!src)return;
-    let a=document.getElementById('detailAudio');
+    let a=$('detailAudio');
     if(!a){a=document.createElement('audio');a.id='detailAudio';a.src=src;a.preload='none';document.body.appendChild(a)}
-    if(a.paused){a.play();$('playAyatBtn').innerHTML='<i data-lucide="pause" class="icon"></i>Jeda'}
-    else{a.pause();$('playAyatBtn').innerHTML='<i data-lucide="play" class="icon"></i>Putar'}
+    const dock=ensureDetailAudioDock();
+    $('detailAudioTitle').textContent=`${data.namaLatin} · Ayat ${verse.nomorAyat}`;
+    dock.classList.add('show');
+    if(a.paused){a.play();syncDetailPlayButton(true);$('detailAudioToggle').innerHTML='<i data-lucide="pause" class="icon"></i>'}
+    else{a.pause();syncDetailPlayButton(false);$('detailAudioToggle').innerHTML='<i data-lucide="play" class="icon"></i>'}
+    $('detailAudioToggle').onclick=()=>{if(a.paused){a.play();syncDetailPlayButton(true);$('detailAudioToggle').innerHTML='<i data-lucide="pause" class="icon"></i>'}else{a.pause();syncDetailPlayButton(false);$('detailAudioToggle').innerHTML='<i data-lucide="play" class="icon"></i>'}if(window.lucide)lucide.createIcons()};
+    $('detailAudioClose').onclick=()=>{a.pause();dock.classList.remove('show');syncDetailPlayButton(false)};
+    a.ontimeupdate=()=>{$('detailAudioProgress').style.width=(a.duration?a.currentTime/a.duration*100:0)+'%'};
+    a.onended=()=>{syncDetailPlayButton(false);$('detailAudioToggle').innerHTML='<i data-lucide="play" class="icon"></i>';if(window.lucide)lucide.createIcons()};
     if(window.lucide)lucide.createIcons();
   };
   $('shareAyatBtn').onclick=async()=>{
@@ -86,7 +102,7 @@ function setupAudio(){
 
 function loadEnhancements(){
   if(!window.__l6QuranGlobalShell&&!window.__l6QuranGlobalShellRequested){window.__l6QuranGlobalShellRequested=true;const s=document.createElement('script');s.src='quran-global-shell.js?v=2';s.defer=true;document.body.appendChild(s)}
-  const enhance=document.createElement('script');enhance.src='ayat-reader-enhance.js?v=2';enhance.defer=true;document.body.appendChild(enhance);
+  const enhance=document.createElement('script');enhance.src='ayat-reader-enhance.js?v=3';enhance.defer=true;document.body.appendChild(enhance);
   const polish=document.createElement('script');polish.src='ayat-detail-polish.js?v=1';polish.defer=true;document.body.appendChild(polish);
 }
 
