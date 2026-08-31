@@ -16,18 +16,11 @@ Regression checks:
 
 ## QA-02 — Long Surah progressive rendering
 **Commit:** `7f8fbb1`
-**Status:** PASS (code/behavior), preview visual verification required.
+**Status:** SUPERSEDED by QA-05 manual 10-ayat loading.
 
-Changes:
-- Initial Surah DOM renders 30 ayat instead of the entire Surah.
-- Additional batches load through IntersectionObserver before the reader reaches them.
-- Browsers without IntersectionObserver fall back to full rendering.
-
-Regression checks:
-- Deep-link/jump ensures target ayat exists before scrolling.
-- Audio auto-next ensures the next ayat is rendered before highlighting.
-- Bookmark and share still operate on the original full API dataset.
-- API error state remains unchanged.
+Original changes:
+- Initial Surah DOM rendered 30 ayat instead of the entire Surah.
+- Additional batches used IntersectionObserver.
 
 ## QA-03 — Navigation redirect hop removal
 **Commit:** `e24ec2e`
@@ -57,6 +50,43 @@ Regression checks:
 - v7 design-system CSS remains loaded.
 - Quran shell/global-shell scripts retain execution order.
 
+## QA-05 — Surah 10-ayat manual Load More + button states
+**Commit:** `9c4be1d`
+**Status:** PASS (code/behavior/accessibility), preview visual verification required.
+
+Changes:
+- Initial Surah render reduced to 10 ayat.
+- Automatic IntersectionObserver batching replaced by explicit `Tampilkan 10 Ayat Berikutnya` action.
+- Remaining count adapts for the final batch.
+- Loading/disabled feedback appears while a batch is appended.
+- Shared button behavior includes hover, pressed, focus-visible, disabled and pointer states.
+- Arabic reader markup explicitly includes `lang="ar" dir="rtl"`.
+
+Regression checks:
+- No duplicate batch rendering in normal load-more flow.
+- Deep-link and ayat jump ensure the requested ayat exists before scrolling.
+- Audio auto-next, bookmark and share continue to use the complete API dataset.
+- API failure still replaces the reader with a readable error state.
+- Focus-visible from the shared accessibility layer remains intact.
+
+## QA-06 — Reader and Detail Ayat skeleton loading
+**Commits:** `09458e4`, `cc6bace`
+**Status:** PASS (structural/behavior/reduced-motion), preview visual verification required.
+
+Changes:
+- Surah reader displays a stable ayat skeleton while `/surat/{id}` is pending.
+- Detail Ayat displays skeletons for title/meta, Arabic, Latin and translation while core data is pending.
+- Tafsir uses a separate skeleton and can remain loading after Arabic/translation are already readable.
+- Detail page now consumes the v7 shared component stylesheet.
+- Added API preconnect on Detail Ayat.
+
+Regression checks:
+- Core skeleton is removed as soon as `/surat` resolves.
+- Tafsir skeleton is removed independently in success or error states.
+- Core API failure removes skeletons and exposes readable error content.
+- Skeleton animation is disabled under `prefers-reduced-motion`.
+- Skeleton elements are non-interactive / hidden from assistive semantics where applicable.
+
 ## Visual QA Gate before next structural pass
 Test preview deployment at minimum:
 - 320px
@@ -68,11 +98,15 @@ Test preview deployment at minimum:
 Flows:
 1. Home initial load and search.
 2. Open Al-Fatihah and Al-Baqarah.
-3. Scroll Al-Baqarah beyond ayat 30, 60 and 90 to confirm progressive continuity.
-4. Jump to a late ayat (e.g. 255).
-5. Audio play and auto-next across a batch boundary (e.g. ayat 30 -> 31).
-6. Open Detail Ayat and confirm Arabic/translation appear before Tafsir if Tafsir is slower.
-7. Previous/next ayat and Surah navigation.
-8. Mobile sticky navigation / audio dock.
+3. Confirm Al-Baqarah initially shows 10 ayat only.
+4. Use `Tampilkan 10 Ayat Berikutnya` repeatedly and verify continuity 10 -> 20 -> 30.
+5. Verify Load More hover / pressed / keyboard focus / disabled-loading behavior.
+6. Jump to a late ayat (e.g. 255) and confirm the target renders and scrolls correctly.
+7. Audio play and auto-next across a batch boundary (e.g. ayat 10 -> 11).
+8. Open Detail Ayat and confirm skeleton appears immediately.
+9. Confirm Arabic/translation replace their skeleton before Tafsir when Tafsir is slower.
+10. Previous/next ayat and Surah navigation.
+11. Mobile sticky navigation / audio dock.
+12. Confirm no major layout jump when skeletons are replaced with real content.
 
 Do not proceed to the next structural cleanup if this preview gate exposes a regression.
