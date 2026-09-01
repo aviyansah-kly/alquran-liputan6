@@ -50,6 +50,12 @@
   border-color:rgba(0,66,165,.18);
   color:var(--quran-brand-blue);
 }
+.finder .journey{
+  grid-template-columns:1fr;
+}
+.finder .journey-card:not(:first-child){
+  display:none;
+}
 .finder .journey-card:first-child{
   border-color:rgba(255,51,0,.18);
   background:linear-gradient(135deg,#fff,#fffbf7);
