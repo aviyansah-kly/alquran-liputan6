@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>Detail Ayat — Al-Qur'an Liputan6</title>
+  <meta name="description" content="Baca arti, tafsir, poin penting, Asbabun Nuzul, dan FAQ ayat Al-Qur'an.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://equran.id">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lateef:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@0.468.0"></script>
+  <link rel="stylesheet" href="./mobile.css?v=5"><link rel="stylesheet" href="./ayat.css?v=1">
+</head>
+<body>
+  <header class="mobile-header"><div class="mobile-header__bar"><a class="mobile-logo" href="./" aria-label="Liputan6 Al-Qur'an"><img src="https://www.figma.com/api/mcp/asset/c49e7ab8-68de-4ee7-a061-f25c8edc1edc.svg" alt="Liputan6"></a><div class="mobile-header__actions"><button type="button" class="icon-button" aria-label="Masuk"><i data-lucide="circle-user-round"></i></button><button type="button" class="icon-button" aria-label="Menu"><i data-lucide="layout-grid"></i></button></div></div><nav class="channel-tabs" aria-label="Navigasi Islami"><div class="channel-tabs__lead"><i data-lucide="book-open"></i><span>Islami</span></div><span class="channel-divider"></span><a class="channel-tab active" href="./">Al-Qur'an</a><a class="channel-tab" href="#">Jadwal Sholat</a><a class="channel-tab" href="#">Doa Harian</a><a class="channel-tab" href="#">Ramadan</a></nav></header>
+
+  <main class="ayat-detail-page">
+    <div class="mobile-container breadcrumb" aria-label="Breadcrumb"><a href="./">Al-Qur'an</a><i data-lucide="chevron-right"></i><a id="surahCrumb" href="./surah.html?surah=1">Surah</a><i data-lucide="chevron-right"></i><b id="ayatCrumb">Ayat</b></div>
+
+    <section class="mobile-container ayat-hero">
+      <a id="backSurah" class="back-surah" href="./surah.html?surah=1"><i data-lucide="arrow-left"></i>Kembali ke Surah</a>
+      <div class="ayat-heading"><div><span id="ayatKicker" class="ayat-kicker">DETAIL AYAT</span><h1 id="detailTitle">Memuat ayat...</h1><p id="detailMeta">Memuat informasi Surah...</p></div><div id="detailArabicName" class="ayat-surah-calligraphy" aria-hidden="true"></div></div>
+    </section>
+
+    <div id="readerToolbar" class="ayat-reader-toolbar" aria-label="Navigasi pembaca ayat">
+      <div class="ayat-toolbar-context"><button id="prevSticky" type="button" class="sticky-nav" aria-label="Ayat sebelumnya"><i data-lucide="arrow-left"></i></button><div class="ayat-toolbar-info"><span id="stickyEyebrow">Ayat</span><strong id="stickyName">Memuat...</strong></div><button id="nextSticky" type="button" class="sticky-nav" aria-label="Ayat berikutnya"><i data-lucide="arrow-right"></i></button></div>
+      <div class="ayat-toolbar-actions"><button id="stickyPlay" class="sticky-play" type="button" aria-label="Putar ayat"><i data-lucide="play"></i></button><div class="select-control"><select id="detailJump" aria-label="Pilih ayat"><option value="">Pilih ayat</option></select><i data-lucide="chevron-down"></i></div><div class="select-control select-section"><select id="sectionJump" aria-label="Pilih bagian"><option value="arti">Arti</option><option value="tafsir">Tafsir</option><option value="poin-penting">Poin Penting</option><option value="asbabun-nuzul">Asbabun Nuzul</option><option value="faq">FAQ</option></select><i data-lucide="chevron-down"></i></div></div>
+    </div>
+
+    <section class="mobile-container detail-verse-card">
+      <div class="detail-verse-head"><span id="verseNumber" class="detail-verse-number">1</span><div class="detail-verse-actions"><button id="saveAyatBtn" type="button" aria-label="Simpan ayat" title="Simpan"><i data-lucide="bookmark"></i></button><button id="shareAyatBtn" type="button" aria-label="Bagikan ayat" title="Bagikan"><i data-lucide="share-2"></i></button></div></div>
+      <div id="detailArab" class="detail-arab" lang="ar" dir="rtl">...</div><div id="detailLatin" class="detail-latin">Memuat transliterasi...</div>
+    </section>
+
+    <div class="mobile-container detail-content">
+      <section class="detail-section" id="arti"><div class="detail-section-label">01</div><div><h2>Arti</h2><p id="artiText">Memuat arti ayat...</p></div></section>
+      <section class="detail-section" id="tafsir"><div class="detail-section-label">02</div><div><h2>Tafsir</h2><div id="tafsirText" class="tafsir-text"><p>Memuat tafsir...</p></div><div class="source-note">Sumber tafsir: EQuran.id / Kementerian Agama RI.</div></div></section>
+      <section class="detail-section" id="poin-penting"><div class="detail-section-label">03</div><div><h2>Poin Penting</h2><div class="editorial-note">Bagian ini disiapkan untuk ringkasan poin penting yang telah diverifikasi editor. Prototype tidak membuat kesimpulan agama otomatis.</div></div></section>
+      <section class="detail-section" id="asbabun-nuzul"><div class="detail-section-label">04</div><div><h2>Asbabun Nuzul</h2><div class="editorial-note">Konten akan ditampilkan setelah tersedia sumber Asbabun Nuzul yang terverifikasi untuk ayat ini.</div></div></section>
+      <section class="detail-section" id="faq"><div class="detail-section-label">05</div><div><h2>FAQ</h2><div class="faq-list"><details><summary>Apa konteks utama ayat ini?</summary><p>Jawaban akan ditulis berdasarkan sumber tafsir terverifikasi dan ditinjau editor.</p></details><details><summary>Bagaimana memahami ayat ini dalam rangkaian surah?</summary><p>Jawaban kontekstual akan ditambahkan setelah proses editorial.</p></details></div></div></section>
+    </div>
+
+    <nav class="mobile-container ayat-prev-next" aria-label="Navigasi ayat"><a id="prevAyat" class="ayat-nav-link"><i data-lucide="arrow-left"></i><span>Ayat sebelumnya<b id="prevAyatLabel"></b></span></a><a id="nextAyat" class="ayat-nav-link"><span>Ayat berikutnya<b id="nextAyatLabel"></b></span><i data-lucide="arrow-right"></i></a></nav>
+  </main>
+
+  <footer class="mobile-footer" data-node-id="9561:6374"><div class="footer-brand-row"><img class="footer-logo" src="https://www.figma.com/api/mcp/asset/d6992bd1-58a9-4e3c-9ffc-792613bb1e10.svg" alt="Liputan6"><img class="footer-badge" src="https://www.figma.com/api/mcp/asset/353c3e08-ad01-46cc-924c-772f82cb1139.png" alt=""><img class="footer-badge footer-badge--wide" src="https://www.figma.com/api/mcp/asset/031d70f5-2025-4f93-bd6d-1e3b5e83b98a.png" alt=""></div><div class="footer-link-grid"><div><a href="#">Redaksi</a><a href="#">Disclaimer</a><a href="#">Kode Etik</a></div><div><a href="#">Provacy Policy</a><a href="#">Pedoman Media Siber</a><a href="#">Sitemap</a></div></div><div class="footer-network"><div><span><img src="https://www.figma.com/api/mcp/asset/102d1f4e-d08d-4d33-853c-e6e556c7f424.svg" alt="">Liputan6</span><span class="kl-icon"><i><img src="https://www.figma.com/api/mcp/asset/fbc10e98-ecdf-48d4-936a-a39d8ad5038f.svg" alt=""></i>Kapanlagi.com</span><span><img src="https://www.figma.com/api/mcp/asset/77bad72e-ecf4-429f-89d7-3615265c7aa0.svg" alt="">Merdeka.com</span><span class="fimela-icon"><i><img src="https://www.figma.com/api/mcp/asset/9bfc8b59-94fc-42bd-aa6b-5ca5ee5abcc8.svg" alt=""></i>Fimela.com</span></div><div><span><img src="https://www.figma.com/api/mcp/asset/98e5363f-795e-4adc-bf3e-c63c21144c7f.svg" alt="">Bola.com</span><span><img src="https://www.figma.com/api/mcp/asset/d00fa929-3812-410c-9f17-5fcaa4eff801.svg" alt="">Bola.net</span><span class="brilio-icon"><i><img src="https://www.figma.com/api/mcp/asset/13ba5c3d-ec86-4aa4-a033-017173a704bc.svg" alt=""></i>Brilio.net</span></div></div><div class="footer-social"><strong>Connect with Us</strong><div><img src="https://www.figma.com/api/mcp/asset/14cc99d3-c0a4-4e48-9667-baae91fb8a4d.svg" alt="WhatsApp"><img src="https://www.figma.com/api/mcp/asset/903afd90-6f0a-4bb9-a079-15344057a6ca.svg" alt="Facebook"><span class="social-circle social-circle--black"><img src="https://www.figma.com/api/mcp/asset/2e56306e-1889-42ac-8b57-8aeb330c167c.svg" alt="X"></span><img src="https://www.figma.com/api/mcp/asset/08697b91-86b5-44cb-a3bb-99bf7665ad45.svg" alt="Instagram"><span class="social-circle social-circle--youtube"><img src="https://www.figma.com/api/mcp/asset/a20d5023-03fb-479c-840e-0ed7fa0ce49d.svg" alt="YouTube"></span><span class="social-circle social-circle--black"><img src="https://www.figma.com/api/mcp/asset/47ce1d9b-184d-40ee-b671-5372ececbd9a.svg" alt="TikTok"></span></div></div><p>Copyright © 2025 Liputan6.com<br>KLY KapanLagi Youniverse All Right Reserved.</p></footer>
+
+  <div id="detailAudioDock" class="mobile-audio-dock" hidden><button id="detailAudioToggle" type="button" aria-label="Putar atau jeda"><i data-lucide="pause"></i></button><div class="audio-copy"><strong id="detailAudioTitle">Murottal</strong><span>Misyari Rasyid Al-Afasy</span><div class="audio-track"><span id="detailAudioProgress"></span></div></div><button id="detailAudioClose" type="button" aria-label="Tutup audio"><i data-lucide="x"></i></button><audio id="detailAudio" preload="none"></audio></div>
+  <script src="./ayat.js?v=1"></script>
+</body></html>
