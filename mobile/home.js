@@ -9,7 +9,7 @@ function surahHref(id){return`./surah.html?surah=${id}`}
 function ayatHref(s,a){return`./ayat.html?surah=${s}&ayat=${a}`}
 function surahGlyph(id){return`surah${String(id).padStart(3,'0')}`}
 function renderIcons(){if(window.lucide)window.lucide.createIcons()}
-function escapeHtml(x=''){return String(x).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#039;'}[m]))}
+function escapeHtml(x=''){return String(x).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 
 function restoreLastRead(){
   try{
