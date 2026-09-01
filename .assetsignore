@@ -10,9 +10,6 @@ wrangler.jsonc
 .gitignore
 .github/
 
-# Non-runtime notes
-prototype-note.txt
-
 # Local/editor artifacts
 .DS_Store
 *.log
