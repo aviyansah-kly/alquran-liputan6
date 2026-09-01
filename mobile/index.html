@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>Al-Qur'an Digital — Liputan6</title>
+  <meta name="description" content="Baca Al-Qur'an digital, cari surah dan ayat, serta lanjutkan bacaan terakhir di Liputan6.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://equran.id">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@0.468.0"></script>
+  <link rel="stylesheet" href="./mobile.css?v=1">
+</head>
+<body>
+  <header class="mobile-header">
+    <div class="mobile-header__bar">
+      <a class="mobile-logo" href="./" aria-label="Liputan6 Al-Qur'an">
+        <img src="https://www.figma.com/api/mcp/asset/c49e7ab8-68de-4ee7-a061-f25c8edc1edc.svg" alt="Liputan6">
+      </a>
+      <div class="mobile-header__actions">
+        <button type="button" class="icon-button" aria-label="Masuk"><i data-lucide="circle-user-round"></i></button>
+        <button type="button" class="icon-button" aria-label="Menu"><i data-lucide="layout-grid"></i></button>
+      </div>
+    </div>
+    <nav class="channel-tabs" aria-label="Navigasi Islami">
+      <div class="channel-tabs__lead"><i data-lucide="book-open"></i><span>Islami</span></div>
+      <span class="channel-divider" aria-hidden="true"></span>
+      <a class="channel-tab active" href="./" aria-current="page">Al-Qur'an</a>
+      <a class="channel-tab" href="#">Jadwal Sholat</a>
+      <a class="channel-tab" href="#">Doa Harian</a>
+      <a class="channel-tab" href="#">Ramadan</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="mobile-container breadcrumb" aria-label="Breadcrumb">
+      <a href="#">Home</a><i data-lucide="chevron-right"></i><a href="#">Islami</a><i data-lucide="chevron-right"></i><b>Al-Qur'an</b>
+    </div>
+
+    <section class="mobile-container hero">
+      <span class="eyebrow">AL-QUR'AN DIGITAL</span>
+      <h1>Baca Al-Qur'an dengan lebih nyaman</h1>
+      <p>Cari surah, ayat tertentu, atau lanjutkan bacaan terakhir Anda.</p>
+
+      <form class="quran-search" id="searchForm" role="search">
+        <i data-lucide="search"></i>
+        <input id="searchInput" type="search" autocomplete="off" placeholder="Cari surah atau ayat, contoh 2:255" aria-label="Cari surah atau ayat">
+        <button type="submit" aria-label="Cari"><i data-lucide="arrow-right"></i></button>
+      </form>
+      <div class="search-suggestions" aria-label="Contoh pencarian">
+        <button type="button" data-query="Al-Kahf">Al-Kahf</button>
+        <button type="button" data-query="2:255">2:255</button>
+        <button type="button" data-query="Yasin">Yasin</button>
+      </div>
+      <div id="searchResults" class="search-results" hidden></div>
+    </section>
+
+    <section class="mobile-container continue-section" id="continueSection">
+      <div class="section-title-row">
+        <div><span class="section-accent"></span><h2>Lanjut Membaca</h2></div>
+      </div>
+      <a class="continue-card" id="continueCard" href="./surah.html?surah=2">
+        <div class="continue-icon"><i data-lucide="history"></i></div>
+        <div class="continue-copy">
+          <strong id="continueTitle">Al-Baqarah</strong>
+          <span id="continueMeta">Ayat 1 · Kembali ke bacaan terakhir</span>
+        </div>
+        <i data-lucide="chevron-right" class="continue-arrow"></i>
+      </a>
+    </section>
+
+    <section class="surah-section" id="surahSection">
+      <div class="mobile-container section-title-row section-title-row--surah">
+        <div><span class="section-accent"></span><h2>Pilih Surah</h2></div>
+        <button class="filter-button" id="filterButton" type="button" aria-expanded="false"><i data-lucide="sliders-horizontal"></i> Filter</button>
+      </div>
+      <div class="mobile-container filter-panel" id="filterPanel" hidden>
+        <button type="button" class="active" data-filter="Semua">Semua</button>
+        <button type="button" data-filter="Makkiyah">Makkiyah</button>
+        <button type="button" data-filter="Madaniyah">Madaniyah</button>
+      </div>
+      <div class="mobile-container surah-list" id="surahList">
+        <div class="surah-skeleton"></div><div class="surah-skeleton"></div><div class="surah-skeleton"></div>
+      </div>
+      <div class="mobile-container">
+        <button class="load-more" id="loadMore" type="button" hidden>Tampilkan lebih banyak</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mobile-footer">
+    <div class="footer-brand-row">
+      <img class="footer-logo" src="https://www.figma.com/api/mcp/asset/e5b4003c-0902-4625-950e-8571604f6aca.svg" alt="Liputan6">
+      <img class="footer-badge" src="https://www.figma.com/api/mcp/asset/d2e7c00d-f84f-42d7-879d-22c076b215c2.png" alt="">
+      <img class="footer-badge footer-badge--wide" src="https://www.figma.com/api/mcp/asset/475f2e99-e665-46d4-9418-50251b727803.png" alt="">
+    </div>
+    <div class="footer-link-grid">
+      <div><a href="#">Redaksi</a><a href="#">Disclaimer</a><a href="#">Kode Etik</a></div>
+      <div><a href="#">Privacy Policy</a><a href="#">Pedoman Media Siber</a><a href="#">Sitemap</a></div>
+    </div>
+    <div class="footer-network">
+      <div><span>▣ Liputan6</span><span>▣ Kapanlagi.com</span><span>▣ Merdeka.com</span><span>▣ Fimela.com</span></div>
+      <div><span>▣ Bola.com</span><span>▣ Bola.net</span><span>▣ Brilio.net</span></div>
+    </div>
+    <div class="footer-social">
+      <strong>Connect with Us</strong>
+      <div><span>●</span><span>●</span><span>●</span><span>●</span><span>●</span><span>●</span></div>
+    </div>
+    <p>Copyright © 2026 Liputan6.com<br>KLY KapanLagi Youniverse All Right Reserved.</p>
+  </footer>
+
+  <script src="./home.js?v=1"></script>
+</body>
+</html>
