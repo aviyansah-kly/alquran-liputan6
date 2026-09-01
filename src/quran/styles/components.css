@@ -74,7 +74,7 @@ button:disabled,.tool-btn:disabled,.load:disabled,.ayah-action:disabled,.quran-l
   border:1px solid var(--quran-border);
   background:var(--quran-surface-primary);
   color:var(--quran-text-primary);
-  font-size:12px;
+  font-size:14px;
   font-weight:600;
 }
 .load:hover:not(:disabled),.quran-load-more:hover:not(:disabled){
