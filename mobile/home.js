@@ -7,6 +7,7 @@ function normalizeType(value=''){const v=String(value).toLowerCase();if(v.includ
 function surahHref(id){return`./surah.html?surah=${id}`}
 function ayatHref(s,a){return`./ayat.html?surah=${s}&ayat=${a}`}
 function renderIcons(){if(window.lucide)window.lucide.createIcons()}
+function escapeHtml(x=''){return String(x).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 
 function restoreLastRead(){
   try{
@@ -14,8 +15,7 @@ function restoreLastRead(){
     if(!last)return;
     const surah=Math.min(114,Math.max(1,+last.surah||1));
     const ayat=Math.max(1,+last.ayat||1);
-    $('continueTitle').textContent=last.name||`Surah ${surah}`;
-    $('continueMeta').textContent=`Ayat ${ayat} · Kembali ke bacaan terakhir`;
+    $('continueMeta').textContent=`${last.name||`Surah ${surah}`} · Ayat ${ayat}`;
     $('continueCard').href=ayatHref(surah,ayat);
   }catch(e){}
 }
@@ -23,7 +23,8 @@ function restoreLastRead(){
 function getFiltered(){return allSurah.filter(s=>activeFilter==='Semua'||normalizeType(s.tempatTurun)===activeFilter)}
 function renderSurah(){
   const data=getFiltered(),list=data.slice(0,visibleCount);
-  $('surahList').innerHTML=list.map(s=>`<a class="surah-item" href="${surahHref(s.nomor)}"><span class="surah-number">${s.nomor}</span><span class="surah-copy"><strong>${s.namaLatin}</strong><span>${normalizeType(s.tempatTurun)} · ${s.jumlahAyat} ayat</span></span><span class="surah-arabic"><b lang="ar" dir="rtl">${s.nama}</b><span>${s.arti}</span></span></a>`).join('');
+  $('surahList').innerHTML=list.map(s=>`<a class="surah-item" href="${surahHref(s.nomor)}"><span class="surah-number">${String(s.nomor).padStart(2,'0')}</span><span class="surah-copy"><strong>${escapeHtml(s.namaLatin)}</strong><span>${escapeHtml(s.arti)}<br>${s.jumlahAyat} Ayat · ${normalizeType(s.tempatTurun)}</span></span><span class="surah-arabic"><b lang="ar" dir="rtl">${s.nama}</b></span></a>`).join('');
+  $('surahCount').textContent=`${data.length} surah`;
   $('loadMore').hidden=list.length>=data.length;
 }
 
@@ -32,7 +33,7 @@ async function loadSurah(){
     const res=await fetch(`${API}/surat`);
     if(!res.ok)throw new Error('surah');
     const json=await res.json();allSurah=json.data||[];renderSurah();
-  }catch(e){$('surahList').innerHTML='<div class="search-result">Daftar surah belum dapat dimuat. Silakan refresh halaman.</div>'}
+  }catch(e){$('surahList').innerHTML='<div class="search-result">Daftar surah belum dapat dimuat. Silakan refresh halaman.</div>';$('surahCount').textContent='API tidak tersedia'}
 }
 
 function setupFilters(){
@@ -41,16 +42,21 @@ function setupFilters(){
   $('loadMore').onclick=()=>{visibleCount+=PAGE_SIZE;renderSurah()};
 }
 
-function findMatches(query){
-  const q=query.trim();if(!q)return[];
-  const verse=q.match(/^(\d{1,3})\s*:\s*(\d{1,3})$/);
-  if(verse){const s=Math.min(114,Math.max(1,+verse[1])),a=Math.max(1,+verse[2]);const meta=allSurah.find(x=>x.nomor===s);return[{title:`${meta?.namaLatin||`Surah ${s}`} Ayat ${a}`,meta:'Buka detail ayat',href:ayatHref(s,a)}]}
-  const low=q.toLowerCase();
-  return allSurah.filter(s=>s.namaLatin.toLowerCase().includes(low)||String(s.arti||'').toLowerCase().includes(low)).slice(0,5).map(s=>({title:s.namaLatin,meta:`${normalizeType(s.tempatTurun)} · ${s.jumlahAyat} ayat`,href:surahHref(s.nomor)}));
-}
-function showSearch(query){
-  const box=$('searchResults'),matches=findMatches(query);box.hidden=false;
-  box.innerHTML=matches.length?matches.map(x=>`<a class="search-result" href="${x.href}"><span><strong>${x.title}</strong><br><small>${x.meta}</small></span><i data-lucide="chevron-right"></i></a>`).join(''):'<div class="search-result">Surah atau ayat belum ditemukan.</div>';
+function localMatches(query){const low=query.toLowerCase();return allSurah.filter(s=>`${s.nomor} ${s.namaLatin} ${s.arti} ${s.nama}`.toLowerCase().includes(low)).slice(0,6)}
+function resultLink(title,meta,href){return`<a class="search-result" href="${href}"><span><strong>${escapeHtml(title)}</strong><br><small>${escapeHtml(meta)}</small></span><i data-lucide="chevron-right"></i></a>`}
+function vectorRow(x){const d=x.data||{},sid=d.id_surat||d.nomor_surat,ay=d.nomor_ayat||d.ayat;const title=x.tipe==='tafsir'?`Tafsir ${d.nama_surat||'Surah'} · Ayat ${ay}`:`${d.nama_surat||'Surah'} · Ayat ${ay}`;const sub=x.tipe==='tafsir'?(d.isi||''):(d.terjemahan_id||d.teks_latin||'');return resultLink(title,String(sub).slice(0,150),ayatHref(sid,ay))}
+async function showSearch(query){
+  const q=query.trim(),box=$('searchResults');if(!q)return;
+  const verse=q.match(/^\s*(\d{1,3})\s*[:.]\s*(\d{1,3})\s*$/);
+  if(verse){location.href=ayatHref(Math.min(114,Math.max(1,+verse[1])),Math.max(1,+verse[2]));return}
+  const local=localMatches(q);box.hidden=false;
+  if(local.length){box.innerHTML=local.map(s=>resultLink(s.namaLatin,`${s.arti} · ${s.jumlahAyat} Ayat · ${normalizeType(s.tempatTurun)}`,surahHref(s.nomor))).join('');renderIcons();return}
+  box.innerHTML='<div class="search-result">Mencari ayat dan tafsir yang paling relevan...</div>';
+  try{
+    const r=await fetch('https://equran.id/api/vector',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:q,limit:6,types:['ayat','tafsir'],minScore:.25})});
+    if(!r.ok)throw new Error('search');const j=await r.json(),rows=j.hasil||[];
+    box.innerHTML=rows.length?rows.map(vectorRow).join(''):'<div class="search-result">Belum menemukan hasil. Coba kata yang lebih sederhana.</div>';
+  }catch(e){box.innerHTML='<div class="search-result">Pencarian topik sedang tidak tersedia. Anda tetap dapat mencari nama atau nomor surah.</div>'}
   renderIcons();
 }
 function setupSearch(){
