@@ -26,7 +26,7 @@ This document is the implementation contract for consolidating the Quran prototy
 6. FAQ
 
 ## Design tokens
-Use `quran-design-system-v7.css` as the source of truth for Quran-specific tokens.
+Use `src/quran/styles/tokens.css` as the source of truth for Quran-specific tokens, with `src/quran/styles/index.css` as the shared stylesheet entry point.
 
 ### Spacing
 4 / 8 / 12 / 16 / 20 / 24 / 32 / 40 / 48 / 64px.
@@ -103,7 +103,7 @@ Religious-source content and editorial content must be visually and semantically
 - Asbabun Nuzul: render only when a verified source exists.
 
 ## Engineering architecture target
-Production implementation should converge on shared components rather than the current prototype redirect/patch chain.
+Production implementation should converge on shared components rather than the current prototype patch chain.
 
 Target structure:
 - QuranShell
@@ -126,7 +126,7 @@ Target structure:
   - SourceNote
   - PreviousNextNavigation
 
-Do not carry the `v6 -> v4/v5` redirect architecture into production.
+Do not reintroduce version redirect wrappers into the active Quran flow.
 
 ## Definition of Done
 A handoff is production-ready when:
