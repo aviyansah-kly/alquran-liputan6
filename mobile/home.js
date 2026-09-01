@@ -6,6 +6,7 @@ const $=id=>document.getElementById(id);
 function normalizeType(value=''){const v=String(value).toLowerCase();if(v.includes('mad'))return'Madaniyah';return'Makkiyah'}
 function surahHref(id){return`./surah.html?surah=${id}`}
 function ayatHref(s,a){return`./ayat.html?surah=${s}&ayat=${a}`}
+function surahGlyph(id){return`surah${String(id).padStart(3,'0')}`}
 function renderIcons(){if(window.lucide)window.lucide.createIcons()}
 function escapeHtml(x=''){return String(x).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 
@@ -23,7 +24,7 @@ function restoreLastRead(){
 function getFiltered(){return allSurah.filter(s=>activeFilter==='Semua'||normalizeType(s.tempatTurun)===activeFilter)}
 function renderSurah(){
   const data=getFiltered(),list=data.slice(0,visibleCount);
-  $('surahList').innerHTML=list.map(s=>`<a class="surah-item" href="${surahHref(s.nomor)}"><span class="surah-number">${String(s.nomor).padStart(2,'0')}</span><span class="surah-copy"><strong>${escapeHtml(s.namaLatin)}</strong><span>${escapeHtml(s.arti)}<br>${s.jumlahAyat} Ayat · ${normalizeType(s.tempatTurun)}</span></span><span class="surah-arabic"><b lang="ar" dir="rtl">${s.nama}</b></span></a>`).join('');
+  $('surahList').innerHTML=list.map(s=>`<a class="surah-item" href="${surahHref(s.nomor)}"><span class="surah-number">${String(s.nomor).padStart(2,'0')}</span><span class="surah-copy"><strong>${escapeHtml(s.namaLatin)}</strong><span>${escapeHtml(s.arti)}<br>${s.jumlahAyat} Ayat · ${normalizeType(s.tempatTurun)}</span></span><span class="surah-arabic"><b aria-label="${escapeHtml(s.namaLatin)}">${surahGlyph(s.nomor)}</b></span></a>`).join('');
   $('surahCount').textContent=`${data.length} surah`;
   $('loadMore').hidden=list.length>=data.length;
 }
@@ -37,7 +38,6 @@ async function loadSurah(){
 }
 
 function setupFilters(){
-  $('filterButton').onclick=()=>{const open=$('filterPanel').hidden;$('filterPanel').hidden=!open;$('filterButton').setAttribute('aria-expanded',String(open))};
   $('filterPanel').addEventListener('click',e=>{const btn=e.target.closest('button[data-filter]');if(!btn)return;activeFilter=btn.dataset.filter;visibleCount=PAGE_SIZE;$('filterPanel').querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===btn));renderSurah()});
   $('loadMore').onclick=()=>{visibleCount+=PAGE_SIZE;renderSurah()};
 }
