@@ -46,7 +46,7 @@
   const lastPrimary=primaryLinks[primaryLinks.length-1];
   if(lastPrimary)lastPrimary.textContent='LAINNYA';
   const quranChannel=[...document.querySelectorAll('.channel-nav a')].find(a=>a.textContent.trim()==="Al-Qur'an");
-  if(quranChannel){quranChannel.href='prototype-v4.html';quranChannel.classList.add('active')}
+  if(quranChannel){quranChannel.href='prototype-v6.html';quranChannel.classList.add('active')}
 
   let channelOrigin=0;
   const measure=()=>{
