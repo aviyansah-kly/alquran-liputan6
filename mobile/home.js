@@ -1,3 +1,4 @@
+const style=document.createElement('style');style.textContent='.surah-copy strong{font-size:16px}.surah-arabic b{font-size:40px}@media(max-width:350px){.surah-arabic b{font-size:36px}}';document.head.appendChild(style);
 const API='https://equran.id/api/v2';
 const PAGE_SIZE=12;
 let allSurah=[],visibleCount=PAGE_SIZE,activeFilter='Semua';
