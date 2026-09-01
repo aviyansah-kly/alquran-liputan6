@@ -1,0 +1,84 @@
+/* Shared previous / next navigation behaviour for Surah and Ayat */
+.surah-nav a,
+.ayat-page-nav a,
+.reader-surah-nav-btn,
+.ayat-command-nav button{
+  position:relative;
+  min-height:44px;
+  border:1px solid var(--quran-border);
+  background:var(--quran-surface-primary);
+  color:var(--quran-text-primary);
+  cursor:pointer;
+  transition:background-color .16s ease,border-color .16s ease,color .16s ease,box-shadow .16s ease,transform .1s ease;
+}
+
+@media(hover:hover){
+  .surah-nav a:hover,
+  .ayat-page-nav a:hover,
+  .reader-surah-nav-btn:hover:not(:disabled),
+  .ayat-command-nav button:hover:not(:disabled){
+    background:var(--quran-surface-secondary);
+    border-color:rgba(0,66,165,.32);
+    color:var(--quran-brand-blue);
+    box-shadow:0 4px 12px rgba(3,7,18,.08);
+  }
+}
+
+.surah-nav a:active,
+.ayat-page-nav a:active,
+.reader-surah-nav-btn:active:not(:disabled),
+.ayat-command-nav button:active:not(:disabled){
+  transform:translateY(1px) scale(.99);
+  background:var(--quran-surface-accent);
+  border-color:rgba(255,51,0,.30);
+  box-shadow:none;
+}
+
+.surah-nav a:focus-visible,
+.ayat-page-nav a:focus-visible,
+.reader-surah-nav-btn:focus-visible,
+.ayat-command-nav button:focus-visible{
+  outline:3px solid var(--quran-focus);
+  outline-offset:2px;
+}
+
+.reader-surah-nav-btn:disabled,
+.ayat-command-nav button:disabled,
+.surah-nav a[aria-disabled="true"],
+.ayat-page-nav a[aria-disabled="true"]{
+  cursor:not-allowed;
+  opacity:.45;
+  pointer-events:none;
+  box-shadow:none;
+}
+
+.surah-nav a svg,
+.ayat-page-nav a svg,
+.reader-surah-nav-btn svg,
+.ayat-command-nav button svg{
+  transition:transform .16s ease;
+}
+
+@media(hover:hover){
+  .surah-nav a:first-child:hover svg,
+  .ayat-page-nav a:first-child:hover svg,
+  .reader-surah-nav-btn[data-dir="prev"]:hover:not(:disabled) svg,
+  .ayat-command-nav button[data-dir="prev"]:hover:not(:disabled) svg{
+    transform:translateX(-2px);
+  }
+  .surah-nav a:last-child:hover svg,
+  .ayat-page-nav a:last-child:hover svg,
+  .reader-surah-nav-btn[data-dir="next"]:hover:not(:disabled) svg,
+  .ayat-command-nav button[data-dir="next"]:hover:not(:disabled) svg{
+    transform:translateX(2px);
+  }
+}
+
+@media(max-width:767px){
+  .surah-nav a,
+  .ayat-page-nav a,
+  .reader-surah-nav-btn,
+  .ayat-command-nav button{
+    min-height:44px;
+  }
+}

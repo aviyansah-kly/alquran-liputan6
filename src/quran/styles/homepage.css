@@ -1,0 +1,73 @@
+/* Quran Home: primary finder/search component */
+.finder-box{
+  min-height:52px;
+  height:auto;
+  padding:5px 6px 5px 14px;
+  gap:10px;
+  border:1px solid var(--quran-border);
+  border-radius:var(--quran-radius-md);
+  background:var(--quran-surface-primary);
+  box-shadow:none;
+  transition:border-color .16s ease,box-shadow .16s ease,background-color .16s ease;
+}
+.finder-box:focus-within{
+  border-color:var(--quran-brand-orange);
+  box-shadow:0 0 0 3px rgba(255,51,0,.10);
+}
+.finder-box>svg,.finder-box>.icon{
+  flex:0 0 auto;
+  color:var(--quran-text-primary);
+}
+.finder-box input,
+.finder-box input:focus,
+.finder-box input:focus-visible{
+  min-width:0;
+  width:100%;
+  height:40px;
+  padding:0;
+  border:0!important;
+  border-radius:0;
+  outline:0!important;
+  box-shadow:none!important;
+  background:transparent;
+  color:var(--quran-text-primary);
+}
+.finder-box input::placeholder{
+  color:#7b8190;
+  opacity:1;
+}
+.finder-box .orange-btn{
+  flex:0 0 auto;
+  height:42px;
+  min-height:42px;
+  padding-inline:18px;
+}
+.finder-example{
+  border:1px solid transparent;
+}
+.finder-example:hover{
+  background:var(--quran-surface-secondary);
+  border-color:rgba(0,66,165,.18);
+  color:var(--quran-brand-blue);
+}
+.finder .journey-card:first-child{
+  border-color:rgba(255,51,0,.18);
+  background:linear-gradient(135deg,#fff,#fffbf7);
+}
+.api-note{
+  margin-top:14px;
+  color:var(--quran-text-secondary);
+}
+@media(max-width:767px){
+  .finder-box{
+    min-height:56px;
+    padding-left:12px;
+    gap:8px;
+  }
+  .finder-box input{height:44px;}
+  .finder-box .orange-btn{
+    height:44px;
+    min-height:44px;
+    padding-inline:16px;
+  }
+}

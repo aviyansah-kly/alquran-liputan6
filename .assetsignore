@@ -1,0 +1,18 @@
+# Documentation / handoff files
+README.md
+QA-LOG.md
+QURAN-HANDOFF.md
+RELEASE-CANDIDATE.md
+src/quran/README.md
+
+# Cloudflare / repository config
+wrangler.jsonc
+.gitignore
+.github/
+
+# Non-runtime notes
+prototype-note.txt
+
+# Local/editor artifacts
+.DS_Store
+*.log

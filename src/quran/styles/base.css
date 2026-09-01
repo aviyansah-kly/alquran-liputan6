@@ -1,0 +1,33 @@
+a,button,input,select,summary,[role="button"]{
+  -webkit-tap-highlight-color:transparent;
+}
+
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,[role="button"]:focus-visible{
+  outline:3px solid var(--quran-focus);
+  outline-offset:2px;
+}
+
+[lang="ar"],.quran-arabic{
+  direction:rtl;
+  text-align:right;
+}
+
+button,select,.tool-btn,.orange-btn,.load,.filter{
+  min-height:var(--quran-control-desktop);
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    scroll-behavior:auto!important;
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
+  .header-search{animation:none!important;}
+}
+
+@media(max-width:767px){
+  button,select,.tool-btn,.orange-btn,.load,.filter,.finder-example,.detail-anchor-nav a{
+    min-height:var(--quran-control-mobile);
+  }
+}
