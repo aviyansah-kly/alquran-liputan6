@@ -1,3 +1,4 @@
+const style=document.createElement('style');style.textContent='.surah-copy strong{font-size:16px}.surah-arabic b{font-size:40px}@media(max-width:350px){.surah-arabic b{font-size:36px}}';document.head.appendChild(style);
 const API='https://equran.id/api/v2';
 const PAGE_SIZE=12;
 let allSurah=[],visibleCount=PAGE_SIZE,activeFilter='Semua';
@@ -8,7 +9,7 @@ function surahHref(id){return`./surah.html?surah=${id}`}
 function ayatHref(s,a){return`./ayat.html?surah=${s}&ayat=${a}`}
 function surahGlyph(id){return`surah${String(id).padStart(3,'0')}`}
 function renderIcons(){if(window.lucide)window.lucide.createIcons()}
-function escapeHtml(x=''){return String(x).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function escapeHtml(x=''){return String(x).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#039;'}[m]))}
 
 function restoreLastRead(){
   try{
