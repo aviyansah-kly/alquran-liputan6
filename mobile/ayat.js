@@ -20,6 +20,10 @@ function splitReadableParagraphs(text){
 }
 function typeLabel(x){return String(x||'').toLowerCase()==='mekah'?'Makkiyah':'Madaniyah'}
 function renderTafsir(parts){const box=$('tafsirText');box.textContent='';parts.forEach(text=>{const p=document.createElement('p');p.textContent=text;box.appendChild(p)})}
+function mountFaqIcons(){
+  if(!document.querySelector('script[data-iconify-faq]')){const s=document.createElement('script');s.src='https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js';s.async=true;s.dataset.iconifyFaq='1';document.head.appendChild(s)}
+  document.querySelectorAll('.faq-list summary').forEach(summary=>{if(summary.querySelector('iconify-icon'))return;const icon=document.createElement('iconify-icon');icon.setAttribute('icon','solar:alt-arrow-down-linear');icon.setAttribute('aria-hidden','true');summary.appendChild(icon)})
+}
 
 function renderCore(){
   const n=verse.nomorAyat,name=data.namaLatin;
@@ -45,10 +49,30 @@ function setNav(n){
   $('prevSticky').title=$('prevAyatLabel').textContent?`Sebelumnya: ${$('prevAyatLabel').textContent}`:'Ayat sebelumnya';$('nextSticky').title=$('nextAyatLabel').textContent?`Berikutnya: ${$('nextAyatLabel').textContent}`:'Ayat berikutnya';
 }
 function setupAudio(){
-  const src=(verse.audio||{})[qari]||Object.values(verse.audio||{})[0]||'';const audio=$('detailAudio'),dock=$('detailAudioDock'),play=$('stickyPlay'),toggle=$('detailAudioToggle');if(src)audio.src=src;
-  const sync=playing=>{play.innerHTML=`<i data-lucide="${playing?'pause':'play'}"></i>`;play.setAttribute('aria-label',playing?'Jeda ayat':'Putar ayat');play.setAttribute('aria-pressed',playing?'true':'false');toggle.innerHTML=`<i data-lucide="${playing?'pause':'play'}"></i>`;icons()};
-  const playToggle=()=>{if(!src)return;$('detailAudioTitle').textContent=`${data.namaLatin} · Ayat ${verse.nomorAyat}`;dock.hidden=false;if(audio.paused){audio.play();sync(true)}else{audio.pause();sync(false)}};
-  play.onclick=playToggle;toggle.onclick=playToggle;$('detailAudioClose').onclick=()=>{audio.pause();dock.hidden=true;sync(false)};audio.ontimeupdate=()=>{$('detailAudioProgress').style.width=(audio.duration?audio.currentTime/audio.duration*100:0)+'%'};audio.onended=()=>sync(false);
+  const src=(verse.audio||{})[qari]||Object.values(verse.audio||{})[0]||'';
+  const audio=$('detailAudio'),dock=$('detailAudioDock'),play=$('stickyPlay'),toggle=$('detailAudioToggle');
+  if(src&&!audio.src)audio.src=src;
+  const sync=()=>{
+    const playing=!audio.paused&&!audio.ended;
+    play.innerHTML=`<i data-lucide="${playing?'pause':'play'}"></i>`;
+    play.classList.toggle('is-playing',playing);
+    play.setAttribute('aria-label',playing?'Jeda ayat':'Putar ayat');
+    play.setAttribute('aria-pressed',playing?'true':'false');
+    play.setAttribute('title',playing?'Jeda ayat':'Putar ayat');
+    toggle.innerHTML=`<i data-lucide="${playing?'pause':'play'}"></i>`;
+    toggle.setAttribute('aria-label',playing?'Jeda audio':'Putar audio');
+    icons();
+  };
+  const playToggle=()=>{
+    if(!src)return;
+    $('detailAudioTitle').textContent=`${data.namaLatin} · Ayat ${verse.nomorAyat}`;dock.hidden=false;
+    if(audio.paused){const request=audio.play();if(request?.catch)request.catch(sync)}else audio.pause();
+  };
+  play.onclick=playToggle;toggle.onclick=playToggle;
+  $('detailAudioClose').onclick=()=>{audio.pause();dock.hidden=true;sync()};
+  audio.ontimeupdate=()=>{$('detailAudioProgress').style.width=(audio.duration?audio.currentTime/audio.duration*100:0)+'%'};
+  ['play','pause','ended','emptied'].forEach(evt=>audio.addEventListener(evt,()=>requestAnimationFrame(sync)));
+  sync();
 }
 function restoreBookmark(){if(localStorage.getItem(`l6q-bookmark-${sid}-${verse.nomorAyat}`)==='1')$('saveAyatBtn').classList.add('active')}
 function saveAyat(){const key=`l6q-bookmark-${sid}-${verse.nomorAyat}`,btn=$('saveAyatBtn');if(localStorage.getItem(key)==='1'){localStorage.removeItem(key);btn.classList.remove('active')}else{localStorage.setItem(key,'1');btn.classList.add('active')}}
@@ -59,5 +83,5 @@ function bindControls(){
   $('prevSticky').onclick=()=>{if(prevHref)location.href=prevHref};$('nextSticky').onclick=()=>{if(nextHref)location.href=nextHref};$('saveAyatBtn').onclick=saveAyat;$('shareAyatBtn').onclick=shareAyat;
   const sections=['arti','tafsir','poin-penting','asbabun-nuzul','faq'];const syncSection=()=>{let active='arti';for(const id of sections){const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<=205)active=id;else if(el)break}$('sectionJump').value=active};window.addEventListener('scroll',syncSection,{passive:true});syncSection();
 }
-async function init(){bindControls();icons();try{const r=await fetch(`${API}/surat/${sid}`);if(!r.ok)throw new Error('surat');const j=await r.json();data=j.data;verse=data.ayat.find(v=>v.nomorAyat===requestedAyat)||data.ayat[0];renderCore();loadTafsir()}catch(e){$('detailTitle').textContent='Data ayat belum dapat dimuat';$('detailMeta').textContent='Silakan periksa koneksi dan coba lagi.';$('detailArab').textContent='';$('detailLatin').textContent='';$('artiText').textContent='Data ayat belum tersedia.';renderTafsir(['Tafsir belum dapat dimuat.'])}}
+async function init(){bindControls();mountFaqIcons();icons();try{const r=await fetch(`${API}/surat/${sid}`);if(!r.ok)throw new Error('surat');const j=await r.json();data=j.data;verse=data.ayat.find(v=>v.nomorAyat===requestedAyat)||data.ayat[0];renderCore();loadTafsir()}catch(e){$('detailTitle').textContent='Data ayat belum dapat dimuat';$('detailMeta').textContent='Silakan periksa koneksi dan coba lagi.';$('detailArab').textContent='';$('detailLatin').textContent='';$('artiText').textContent='Data ayat belum tersedia.';renderTafsir(['Tafsir belum dapat dimuat.'])}}
 document.addEventListener('DOMContentLoaded',init);
