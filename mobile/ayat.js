@@ -24,6 +24,10 @@ function mountFaqIcons(){
   if(!document.querySelector('script[data-iconify-faq]')){const s=document.createElement('script');s.src='https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js';s.async=true;s.dataset.iconifyFaq='1';document.head.appendChild(s)}
   document.querySelectorAll('.faq-list summary').forEach(summary=>{if(summary.querySelector('iconify-icon'))return;const icon=document.createElement('iconify-icon');icon.setAttribute('icon','solar:alt-arrow-down-linear');icon.setAttribute('aria-hidden','true');summary.appendChild(icon)})
 }
+function mountAudioPlayerStyles(){
+  if(document.querySelector('link[data-mobile-audio-player]'))return;
+  const link=document.createElement('link');link.rel='stylesheet';link.href='./mobile-audio-player.css?v=1';link.dataset.mobileAudioPlayer='1';document.head.appendChild(link);
+}
 
 function renderCore(){
   const n=verse.nomorAyat,name=data.namaLatin;
@@ -66,7 +70,7 @@ function setupAudio(){
   const playToggle=()=>{
     if(!src)return;
     $('detailAudioTitle').textContent=`${data.namaLatin} · Ayat ${verse.nomorAyat}`;dock.hidden=false;
-    if(audio.paused){const request=audio.play();if(request?.catch)request.catch(sync)}else audio.pause();
+    if(audio.paused){const request=audio.play();if(request?.catch)request.catch(()=>{dock.hidden=true;sync()})}else audio.pause();
   };
   play.onclick=playToggle;toggle.onclick=playToggle;
   $('detailAudioClose').onclick=()=>{audio.pause();dock.hidden=true;sync()};
@@ -83,5 +87,5 @@ function bindControls(){
   $('prevSticky').onclick=()=>{if(prevHref)location.href=prevHref};$('nextSticky').onclick=()=>{if(nextHref)location.href=nextHref};$('saveAyatBtn').onclick=saveAyat;$('shareAyatBtn').onclick=shareAyat;
   const sections=['arti','tafsir','poin-penting','asbabun-nuzul','faq'];const syncSection=()=>{let active='arti';for(const id of sections){const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<=205)active=id;else if(el)break}$('sectionJump').value=active};window.addEventListener('scroll',syncSection,{passive:true});syncSection();
 }
-async function init(){bindControls();mountFaqIcons();icons();try{const r=await fetch(`${API}/surat/${sid}`);if(!r.ok)throw new Error('surat');const j=await r.json();data=j.data;verse=data.ayat.find(v=>v.nomorAyat===requestedAyat)||data.ayat[0];renderCore();loadTafsir()}catch(e){$('detailTitle').textContent='Data ayat belum dapat dimuat';$('detailMeta').textContent='Silakan periksa koneksi dan coba lagi.';$('detailArab').textContent='';$('detailLatin').textContent='';$('artiText').textContent='Data ayat belum tersedia.';renderTafsir(['Tafsir belum dapat dimuat.'])}}
+async function init(){bindControls();mountFaqIcons();mountAudioPlayerStyles();icons();try{const r=await fetch(`${API}/surat/${sid}`);if(!r.ok)throw new Error('surat');const j=await r.json();data=j.data;verse=data.ayat.find(v=>v.nomorAyat===requestedAyat)||data.ayat[0];renderCore();loadTafsir()}catch(e){$('detailTitle').textContent='Data ayat belum dapat dimuat';$('detailMeta').textContent='Silakan periksa koneksi dan coba lagi.';$('detailArab').textContent='';$('detailLatin').textContent='';$('artiText').textContent='Data ayat belum tersedia.';renderTafsir(['Tafsir belum dapat dimuat.'])}}
 document.addEventListener('DOMContentLoaded',init);
