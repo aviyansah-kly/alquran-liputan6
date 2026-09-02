@@ -73,6 +73,35 @@
     const toggle=document.getElementById('audioToggle');
     const close=document.getElementById('audioClose');
     let audioMode='none';
+    let lastFollowedAyat=0;
+
+    const activeVerseFromTitle=()=>{
+      const match=(document.getElementById('audioTitle')?.textContent||'').match(/Ayat\s+(\d+)/i);
+      return match?parseInt(match[1],10):0;
+    };
+    const syncAyahButtons=()=>{
+      const active=audioMode==='verse'&&!audio.paused&&!audio.ended?activeVerseFromTitle():0;
+      document.querySelectorAll('[data-play]').forEach(btn=>{
+        const n=parseInt(btn.dataset.play||'0',10);
+        const playing=n===active;
+        btn.classList.toggle('is-audio-playing',playing);
+        btn.setAttribute('aria-pressed',playing?'true':'false');
+        btn.setAttribute('aria-label',playing?`Jeda audio ayat ${n}`:`Putar audio ayat ${n}`);
+        btn.setAttribute('title',playing?'Jeda':'Audio');
+        btn.innerHTML=`<i data-lucide="${playing?'pause':'play'}"></i><span class="action-label">${playing?'Jeda':'Audio'}</span>`;
+      });
+      if(window.lucide)lucide.createIcons();
+      if(active&&active!==lastFollowedAyat){
+        lastFollowedAyat=active;
+        ensureRendered(active);
+        requestAnimationFrame(()=>{
+          const ayah=document.getElementById(`ayat-${active}`);
+          if(!ayah)return;
+          const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          ayah.scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'});
+        });
+      }
+    };
 
     const syncAudioUi=()=>{
       if(!audio||!toggle)return;
@@ -85,6 +114,7 @@
       play.innerHTML=`<i data-lucide="${fullPlaying?'pause':'play'}"></i><span>${fullPlaying?'Jeda':'Putar Surah'}</span>`;
       toggle.innerHTML=`<i data-lucide="${playing?'pause':'play'}"></i>`;
       toggle.setAttribute('aria-label',playing?'Jeda audio':'Putar audio');
+      syncAyahButtons();
       if(window.lucide)lucide.createIcons();
     };
 
@@ -104,7 +134,7 @@
       if(!src){playAyat(1);return}
       const same=audio.src===src||audio.currentSrc===src;
       if(same&&audioMode==='full'&&!audio.paused){audio.pause();return}
-      audioMode='full';
+      audioMode='full';lastFollowedAyat=0;
       if(!same)audio.src=src;
       document.getElementById('audioTitle').textContent=data.namaLatin+' · Surah lengkap';
       document.getElementById('audioSub').textContent=qariNames[qari.value];
@@ -113,16 +143,26 @@
     };
     play.onclick=playSurah;
 
+    const ayahList=document.getElementById('ayahList');
+    ayahList?.addEventListener('click',e=>{
+      const btn=e.target.closest('[data-play]');
+      if(!btn||audioMode!=='verse'||audio.paused)return;
+      const n=parseInt(btn.dataset.play||'0',10);
+      if(n&&n===activeVerseFromTitle()){
+        e.preventDefault();e.stopImmediatePropagation();audio.pause();
+      }
+    },true);
+
     toggle.onclick=()=>{
       if(!audio.src)return;
       if(audio.paused){const request=audio.play();if(request?.catch)request.catch(syncAudioUi)}else audio.pause();
     };
-    close.onclick=()=>{audio.pause();dock.hidden=true;audioMode='none';syncAudioUi()};
+    close.onclick=()=>{audio.pause();dock.hidden=true;audioMode='none';lastFollowedAyat=0;syncAudioUi()};
     audio.ontimeupdate=()=>{document.getElementById('audioProgress').style.width=(audio.duration?audio.currentTime/audio.duration*100:0)+'%'};
     audio.onended=()=>{
       const endedMode=audioMode;syncAudioUi();
       if(endedMode==='verse'&&activeAyat&&data&&activeAyat<data.jumlahAyat)playAyat(activeAyat+1);
-      else if(endedMode==='full')audioMode='none';
+      else if(endedMode==='full'){audioMode='none';lastFollowedAyat=0;syncAudioUi()}
     };
     ['play','pause','emptied'].forEach(evt=>audio.addEventListener(evt,()=>requestAnimationFrame(syncAudioUi)));
     syncAudioUi();
